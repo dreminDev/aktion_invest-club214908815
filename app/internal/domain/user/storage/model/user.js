@@ -22,9 +22,37 @@ const User = new model("users", {
         "required": "true",
     },
 
+    "referralCount": {
+        "type": "number",
+        "default": 0,
+    },
+
+    "vkDonut": {
+        "type": "boolean",
+        "default": 0,
+    },
+
     "balance": {
         "type": "number",
         "default": 0,
+        "index": "true",
+    },
+
+    "perDayInc": {
+        "type": "number",
+        "default": 0,
+        "index": "true",
+    },
+
+    "availableBalance": {
+        "type": "number",
+        "default": 0,
+        "index": "true",
+    },
+
+    "qiwiNumber": {
+        "type": "string",
+        "default": '',
         "index": "true",
     },
 

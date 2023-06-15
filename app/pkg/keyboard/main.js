@@ -1,15 +1,19 @@
-const { keyboard, textButton, red, green, gray, blue } = require("./help");
+const { keyboard, red, green, gray, blue , constructorKeyboard} = require("./help");
 
 const keyboardMain = (admin) => {
     const arr = [
         [
+            constructorKeyboard("text", "🌟 Мои Акции", green, "profile"),
+        ],
+        [
+            constructorKeyboard("text", "☄ Купить акции", red, "action"),
             
-        ]
+        ],
 ];
 
     if (admin) {
         arr.push([ 
-            textButton({ label: "Админ-панель", color: red, payload: { "command": "admin" } })
+            constructorKeyboard("text", "Админ-панель", red, "admin"),
         ]);
     };
 

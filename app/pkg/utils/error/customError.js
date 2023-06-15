@@ -1,11 +1,18 @@
+const { vkShort } = require("../../../internal/adapters/vk/vkUtils");
 
+function handleError(error, msg) {
+    const userId = msg.senderId ? msg.userId : msg.senderId;
 
-function globalError(error) {
     switch (error.message) {
-        case "not balance":
-
-        break;
-
-        
+        case "qiwi number failed validation":
+            vkShort.sendMsg(userId, '❗️ Номер введён неправильно, формат был предоставлен выше.')
+            break;
+        case "insufficient balance":
+            vkShort.sendAnswer(msg, '🙁 Недостаточно средств!');
+            break;
     };
+};
+
+module.exports = {
+    handleError,
 };

@@ -1,4 +1,4 @@
-const { getRandomId, resolveResource } = require("vk-io");
+const { getRandomId } = require("vk-io");
 
 const { api } = require("./vk");
 
@@ -41,13 +41,26 @@ const vkUtils = {
             log(`${Utils.getTime()}`, err);
         });
     },
-
-    
-
-
-
 };
+
+const vkShort = {
+    sendMsg: (userId, text) => {
+        vkUtils.msg({
+            peerId: userId,
+            message: text
+        });
+    },
+    sendAnswer: (msg, text) => {
+        vkUtils.sendEventAnswer({
+            eventId: msg.eventId,
+            userId: msg.userId,
+            peerId: msg.peerId,
+            text: text,
+        });
+    },
+}
 
 module.exports = {
     vkUtils,
+    vkShort,
 };
