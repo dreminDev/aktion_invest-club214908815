@@ -7,7 +7,11 @@ const keyboardMain = (admin) => {
         ],
         [
             constructorKeyboard("text", "☄ Купить акции", red, "action"),
-            
+
+            constructorKeyboard("text", "🔥 Статус", green, "statusVkDonut"),
+        ],
+        [
+            constructorKeyboard("text", "⚡️ Рефералы", green, "referrals"),
         ],
 ];
 

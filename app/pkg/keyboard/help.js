@@ -15,6 +15,9 @@ function constructorKeyboard(type, label, color, payload) {
 	switch (type) {
 		case "text":
 			return textButton({ label, color, payload: { command: payload } });
+		case "event":
+			return callbackButton({ label, color, payload: { command: payload } });
+		
 	};
 };
 

@@ -22,8 +22,17 @@ function newBuyPointInfo(data) {
     };
 };
 
+function newReferralInfo(data) {
+    return {
+        "refAmount": data.refAmount,
+        "referralCount": data.referralCount,
+        "refLink": data.refLink,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
-    newBuyPointInfo
+    newBuyPointInfo,
+    newReferralInfo
 };

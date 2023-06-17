@@ -8,6 +8,8 @@ const { keyboardMain } = require("../../../../../../pkg/keyboard/main");
 
 const log = console.log;
 
+
+
 async function createUser(id, referrerId = 0) {
     try {
         User.create({
@@ -31,6 +33,8 @@ async function createUser(id, referrerId = 0) {
             });
 
             const amount = Utils.formateNumberAddition(refAmount);
+
+            User.updateOne({ id: referrerId }, { $inc: { referralCount: 1, balance: amount } }).then(),
 
             vkUtils.msg({
                 peerId: referrerId,

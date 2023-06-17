@@ -41,6 +41,12 @@ const vkUtils = {
             log(`${Utils.getTime()}`, err);
         });
     },
+    getRefShortUrl: async (userId) => {
+        const url = `vk.me/public${process.env.GROUP_ID}?ref=${userId}`;
+        const short = (await api.utils.getShortLink({ url })).short_url;
+
+        return short;
+    },
 };
 
 const vkShort = {
