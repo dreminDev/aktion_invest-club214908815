@@ -25,6 +25,7 @@ const User = new model("users", {
     "referralCount": {
         "type": "number",
         "default": 0,
+        "index": "true",
     },
 
     "vkDonut": {
@@ -35,7 +36,6 @@ const User = new model("users", {
     "balance": {
         "type": "number",
         "default": 0,
-        "index": "true",
     },
 
     "perDayInc": {
@@ -53,7 +53,6 @@ const User = new model("users", {
     "qiwiNumber": {
         "type": "string",
         "default": '',
-        "index": "true",
     },
 
     "ban": {

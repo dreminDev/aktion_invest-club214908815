@@ -12,6 +12,11 @@ const keyboardMain = (admin) => {
         ],
         [
             constructorKeyboard("text", "⚡️ Рефералы", green, "referrals"),
+
+            constructorKeyboard("text", "📜 Состояние", blue, "wallet"),
+        ],
+        [
+            constructorKeyboard("text", "📊 О боте", green, "statistics"),
         ],
 ];
 

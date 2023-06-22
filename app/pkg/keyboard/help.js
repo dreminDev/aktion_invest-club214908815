@@ -11,13 +11,14 @@ const red = Keyboard.NEGATIVE_COLOR;
 const blue = Keyboard.PRIMARY_COLOR;
 const gray = Keyboard.SECONDARY_COLOR;
 
-function constructorKeyboard(type, label, color, payload) {
+function constructorKeyboard(type, label, color, payload, url) {
 	switch (type) {
 		case "text":
 			return textButton({ label, color, payload: { command: payload } });
 		case "event":
 			return callbackButton({ label, color, payload: { command: payload } });
-		
+		case "url":
+			return urlButton({ label, url });
 	};
 };
 

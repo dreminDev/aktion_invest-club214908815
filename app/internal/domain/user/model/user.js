@@ -30,9 +30,47 @@ function newReferralInfo(data) {
     };
 };
 
+function newStatisticsInfo(data) {
+    return {
+        "userCount": data.userCount,
+        "userRefCount": data.userRefCount,
+        "outputTotal": data.outputTotal,
+    };
+};
+
+function newTopsOfReferrals(data) {
+    return {
+        "text": data.text,
+    };
+};
+
+function newTopsOfDayIncInfo(data) {
+    return {
+        "text": data.text,
+    };
+};
+
+function newWalletTemplateInfo(data) {
+    return {
+        "courseDeposit": data.courceDeposit,
+        "availableBalance": data.availableBalance,
+    };
+};
+
+function newKeksikDepositInfo(data) {
+    return {
+        "amount": data.amount
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
     newBuyPointInfo,
-    newReferralInfo
+    newReferralInfo,
+    newStatisticsInfo,
+    newTopsOfReferrals,
+    newTopsOfDayIncInfo,
+    newWalletTemplateInfo,
+    newKeksikDepositInfo
 };

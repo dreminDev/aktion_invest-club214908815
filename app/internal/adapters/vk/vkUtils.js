@@ -47,6 +47,19 @@ const vkUtils = {
 
         return short;
     },
+
+    getInfoUser: async (userId) => {
+        const [data] = await api.users.get({
+            user_ids: userId,
+        });
+
+        return data;
+    },
+    getName: async (userId) => {
+        const { first_name, last_name } = await vkUtils.getInfoUser(userId)
+
+        return { first_name: first_name, last_name: last_name };
+    },
 };
 
 const vkShort = {

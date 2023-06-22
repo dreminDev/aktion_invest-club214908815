@@ -6,13 +6,13 @@ const Global = new model("globals", {
         "default": 26_000,
     },
 
-    "courceDeposit": {
+    "courseDeposit": {
         "type": "number",
-        "default": 10_000,
+        "default": 18_000,
     },
-    "courceOutput": {
+    "courseOutput": {
         "type": "number",
-        "default": 10_000,
+        "default": 18_000,
     },
     
     "depositTotal": {

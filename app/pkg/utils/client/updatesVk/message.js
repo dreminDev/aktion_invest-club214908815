@@ -1,6 +1,6 @@
 const { updates } = require("../../../../internal/adapters/vk/vk");
 const { dbUser } = require("../../../../internal/domain/user/storage/mongo/managers/dbUserManagers");
-const { executeCommand } = require("../commandManagers/execute");
+const { executeCommand } = require("../commandManagers/executeCommand");
 
 const { keyboardMain } = require("../../../keyboard/main");
 
