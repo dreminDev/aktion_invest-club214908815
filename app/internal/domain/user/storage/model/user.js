@@ -30,7 +30,7 @@ const User = new model("users", {
 
     "vkDonut": {
         "type": "boolean",
-        "default": 0,
+        "default": false,
     },
 
     "balance": {

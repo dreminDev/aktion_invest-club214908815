@@ -16,13 +16,18 @@ const keyboardMain = (admin) => {
             constructorKeyboard("text", "📜 Состояние", blue, "wallet"),
         ],
         [
+            constructorKeyboard("text", "🫰 Налоги", blue, "tax"),
+
+            constructorKeyboard("text", "🏦 Банк", blue, "bank"),
+        ],
+        [
             constructorKeyboard("text", "📊 О боте", green, "statistics"),
         ],
 ];
 
     if (admin) {
         arr.push([ 
-            constructorKeyboard("text", "Админ-панель", red, "admin"),
+            constructorKeyboard("event", "Админ-панель", red, "admin"),
         ]);
     };
 

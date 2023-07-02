@@ -14,18 +14,26 @@ module.exports = async (req, res) => {
             );
         };
 
-        res.send(
-            JSON.stringify({ status: "ok" })
-        );
-
         const { user, amount } = req.body.donate;
-
+        
         const validatedData = {
             userId: user,
             amount: amount,
         };
 
-        handleKeksikDeposit(validatedData)
+        if (!validatedData.userId || !validatedData.amount) {
+            res.status(422)
+            return res.send(JSON.stringify({ status: "err",
+                error: "one or more parameters were not specified"
+            })
+            );
+        };
+
+        res.send(
+            JSON.stringify({ status: "ok" })
+        );
+
+        handleKeksikDeposit(validatedData);
 
     } catch (err) {
         res.send(JSON.stringify({ status: err }));

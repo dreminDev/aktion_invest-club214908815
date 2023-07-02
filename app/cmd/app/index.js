@@ -12,9 +12,12 @@ const { updatesEvent } = require("../../pkg/utils/client/updatesVk/event");
 
 const { updatesMessage } = require("../../pkg/utils/client/updatesVk/message");
 
+const { accrual } = require("../../internal/handlers/bot/dailyIncome/incomeUser");
+const { cronStart } = require("../../internal/handlers/bot/updateDaily/cron");
 
 
-function main() {
+
+(function main() {
     startVK();
     startApiVk();
 
@@ -26,8 +29,9 @@ function main() {
 
     initUserHandlers(addCommand);
 
+    accrual();
+    cronStart();
+
     updatesMessage();
     updatesEvent();
-};
-
-main();
+})();

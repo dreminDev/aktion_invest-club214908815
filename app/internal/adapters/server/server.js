@@ -7,12 +7,12 @@ app.use(express.json());
 
 require("dotenv").config();
 
-const SERVER_PORT = process.env.SERVER_PORT;
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
 
 
 
 function serverStart() {
-    app.listen(SERVER_PORT || 3000, (err) => {
+    app.listen(SERVER_PORT, (err) => {
         if (err) {
             console.log(err);
         };

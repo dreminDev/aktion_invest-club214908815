@@ -1,6 +1,6 @@
 const { parseNumber, isValidPhoneNumber } = require('libphonenumber-js');
 
-const { vkUtils } = require('../../../adapters/vk/vkUtils');
+const { vkUtils, vkShort } = require('../../../adapters/vk/vkUtils');
 
 const { dbUser } = require("../storage/mongo/managers/dbUserManagers");
 const { dbGlobal } = require('../storage/mongo/managers/dbGlobalManagers');
@@ -8,17 +8,21 @@ const { dbGlobal } = require('../storage/mongo/managers/dbGlobalManagers');
 const { Utils } = require("../../../../pkg/utils/utils");
 const { amountAction, perDayIncAction } = require("../../../handlers/usecase/purchases/amount.json");
 
-const { 
-    newProfileInfo, 
-    newQiwiNumberInfo, 
-    newBuyPointInfo, 
-    newReferralInfo, 
-    newStatisticsInfo, 
-    newTopsOfReferrals, 
+const {
+    newProfileInfo,
+    newQiwiNumberInfo,
+    newBuyPointInfo,
+    newReferralInfo,
+    newStatisticsInfo,
+    newTopsOfReferrals,
     newTopsOfDayIncInfo,
     newWalletTemplateInfo,
     newKeksikDepositInfo,
+    newPaymentKeksikQiwiInfo,
+    newVkDonutInfo,
+    newMailingInfo,
 } = require("../model/user");
+const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 
 
 
@@ -174,7 +178,7 @@ async function getTopOfReferralsData() {
 
     for (let i = 0; i < topsReferralsData.length; i++) {
         const element = topsReferralsData[i];
-        
+
         const userId = element.id;
         const referralCount = element.referralCount;
 
@@ -203,7 +207,7 @@ async function getTopsOfPerDayInc() {
 
     for (let i = 0; i < topsPerDayIncData.length; i++) {
         const element = topsPerDayIncData[i];
-        
+
         const userId = element.id;
         const perDayInc = element.perDayInc;
 
@@ -225,10 +229,10 @@ async function getWalletTemplateData(userId) {
             _id: 0,
             availableBalance: 1,
         }),
-        dbGlobal.get({ 
-            _id: 0, 
-            courseDeposit: 1, 
-            courseOutput: 1 
+        dbGlobal.get({
+            _id: 0,
+            courseDeposit: 1,
+            courseOutput: 1
         }),
     ]);
 
@@ -260,15 +264,100 @@ async function handleKeksikDeposit(responseData) {
 
     const userAmount = amount * courseDeposit;
 
-    dbUser.incUserBalance(userId, userAmount);
+    Promise.all([
+        dbUser.incUserBalance(userId, userAmount),
+        dbGlobal.incDepositAmount(userAmount),
+    ]);
 
     const utilsUserAmount = Utils.formateNumberAddition(userAmount);
+
+    vkShort.sendMsg(
+        userId,
+        `✅ Успешное пополнение. +${utilsUserAmount}$`
+    );
 
     const data = newKeksikDepositInfo({
         "amount": utilsUserAmount
     });
 
     return data;
+};
+
+async function getPaymentKeksikQiwi(userId) {
+    const [user, global, keksikBalance] = await Promise.all([
+        dbUser.get(userId, {
+            _id: 0,
+            availableBalance: 1,
+            qiwiNumber: 1,
+            vkDonut: 1,
+        }),
+        dbGlobal.get({
+            _id: 0,
+            globalBalanceWithdrawal: 1,
+            courseOutput: 1,
+        }),
+        keksikUtils.balance(),
+    ]);
+
+    const { availableBalance, qiwiNumber, vkDonut } = user;
+    const { courseOutput, globalBalanceWithdrawal } = global;
+
+    const amount = Utils.readNumber(availableBalance / courseOutput);
+    const utilsAmount = Utils.formateNumberAddition(amount);
+
+    if (!qiwiNumber) {
+        throw new Error("missing QIWI number");
+    };
+
+    if (amount < 12) {
+        throw new Error("the balance is less than the validation amount");
+    };
+
+    if (!vkDonut) {
+        throw new Error("missing vkDonut subscription");
+    };
+
+    if (globalBalanceWithdrawal < amount || keksikBalance < amount) {
+        throw new Error("the bot's reserve is over");
+    };
+
+    Promise.all([
+        dbUser.incUserWithdrawalBalance(userId, -availableBalance),
+        dbGlobal.incOutputAmount(amount),
+        keksikUtils.getPaymentQiwi(amount, qiwiNumber),
+    ]);
+
+    const data = newPaymentKeksikQiwiInfo({
+        "amount": utilsAmount,
+    });
+
+    return data;
+};
+
+async function getVkDonutInfoUser(userId) {
+    const { vkDonut } = await dbUser.get(userId, {
+        _id: 0,
+        vkDonut: 1,
+    });
+
+    const data = newVkDonutInfo({
+        "vkDonut": vkDonut,
+    });
+
+    return data;
+};
+
+async function getMailingAdmin() {
+    
+
+
+    const data = newMailingInfo({
+        "count": 1,
+        "time": 22,
+    });
+
+    return data;
+
 };
 
 
@@ -282,4 +371,6 @@ module.exports = {
     getTopsOfPerDayInc,
     getWalletTemplateData,
     handleKeksikDeposit,
+    getPaymentKeksikQiwi,
+    getVkDonutInfoUser
 };

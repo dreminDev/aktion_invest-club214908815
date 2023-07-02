@@ -1,4 +1,4 @@
-const { getRandomId } = require("vk-io");
+const { getRandomId, resolveResource } = require("vk-io");
 
 const { api } = require("./vk");
 
@@ -59,6 +59,12 @@ const vkUtils = {
         const { first_name, last_name } = await vkUtils.getInfoUser(userId)
 
         return { first_name: first_name, last_name: last_name };
+    },
+
+    getId: async (url) => {
+        const resource = await resolveResource({ api: api, resource: url });
+
+        return resource.id;
     },
 };
 

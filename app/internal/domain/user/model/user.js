@@ -63,6 +63,25 @@ function newKeksikDepositInfo(data) {
     };
 };
 
+function newPaymentKeksikQiwiInfo(data) {
+    return {
+        "amount": data.amount
+    };
+};
+
+function newVkDonutInfo(data) {
+    return {
+        "vkDonut": data.vkDonut,
+    };
+};
+
+function newMailingInfo(data) {
+    return {
+        "count": data.count,
+        "time": data.time,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -72,5 +91,8 @@ module.exports = {
     newTopsOfReferrals,
     newTopsOfDayIncInfo,
     newWalletTemplateInfo,
-    newKeksikDepositInfo
+    newKeksikDepositInfo,
+    newPaymentKeksikQiwiInfo,
+    newVkDonutInfo,
+    newMailingInfo
 };

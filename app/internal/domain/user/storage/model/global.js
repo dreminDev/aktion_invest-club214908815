@@ -6,6 +6,22 @@ const Global = new model("globals", {
         "default": 26_000,
     },
 
+    "globalBalanceWithdrawal": {
+        "type": "number",
+        "default": 0, 
+    },        
+
+    "bank": {
+        "amount": {
+            "type": "number",
+            "default": 0, 
+        }, 
+        "count": {
+            "type": "number",
+            "default": 0, 
+        },
+    },     
+
     "courseDeposit": {
         "type": "number",
         "default": 18_000,
