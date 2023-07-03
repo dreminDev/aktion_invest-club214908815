@@ -21,7 +21,7 @@ function handleError(error, msg) {
             vkShort.sendMsg(userId, "❗️ Минимальный вывод 20₽");
             break;
         case "missing vkDonut subscription":
-            vkShort.sendMsg(userId, `❗️ У вас нету vkDonut подписки,\nкупите ее, что бы выводить средства.\n\n🔗 Купить: https://vk.com/donut/club${GROUP_ID}`);
+            vkShort.sendMsg(userId, `🍩 Чтобы использовать это, нужен VK Donut\n\n🔗 Купить: https://vk.com/donut/club${GROUP_ID}`);
             break;
         case "the bot's reserve is over":
             vkShort.sendAnswer(msg, "💲 Дневной резерв бота кончился. Приходи завтра");
@@ -31,6 +31,12 @@ function handleError(error, msg) {
             break;
         case "not validation amount":
             vkShort.sendMsg(userId, "❗️ Вы отправили не число.");
+            break;
+        case "all the players took the pot":
+            vkShort.sendAnswer(msg, "😶 Пока банк пуст, следи за постами в группе");
+            break;
+        case "you have already collected the bank":
+            vkShort.sendAnswer(msg, "❗️ Вы уже собирали банк сегодня.");
             break;
         default: 
             console.log(error);

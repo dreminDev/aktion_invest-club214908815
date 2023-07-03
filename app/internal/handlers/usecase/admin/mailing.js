@@ -1,5 +1,6 @@
+const { getMailingAdmin } = require("../../../domain/user/service/service");
 const { dbUser } = require("../../../domain/user/storage/mongo/managers/dbUserManagers");
-const { mailingVeryfeKeyboard } = require("../../../../pkg/keyboard/admin");
+const { mailingVeryfeKeyboard, mailingAttachemntKeyboard } = require("../../../../pkg/keyboard/admin");
 
 
 
@@ -14,25 +15,32 @@ module.exports = async (msg) => {
 
     const userCount = await dbUser.userCount();
 
-    const text = await msg.question(
+    const textAnswer = await msg.question(
         `👥 Пользователей собрано: ${userCount}\n\n✏️ Введите текст рассылки:`
     );
 
-    const attachment = await msg.question(
+    const attachmentAnswer = await msg.question(
         `👻 Отлично!\n🔥 Отправте attacment, если он не требуется нажмите кнопку.`,
         {
             keyboard: mailingAttachemntKeyboard
         });
 
-    const veryfe = await msg.question(text.text, {
+    const veryfe = await msg.question(textAnswer.text, {
         keyboard: mailingVeryfeKeyboard,
-        attachment: attachment.text,
+        attachment: attachmentAnswer.text,
     });
 
     if (veryfe.text !== 'Запустить') {
         return msg.send('❗️ Рассылка успешно отменена')
     };
 
-
+    const text = textAnswer.text;
+    const attachment = attachmentAnswer.text;
     
+    msg.send('✅ Рассылка успешно заупещена');
+
+    const { countMsg, timeEnd } = await getMailingAdmin(text, attachment, userCount / 100);
+
+    msg.send(`📊 Статистика по рассылке:\n\n⏲ Рассылка разослана за: ${timeEnd} мс.\n💭 Отправлено: ${countMsg} сообщений.`);
+
 };

@@ -10,6 +10,8 @@ const dbUser = {
 
     userRefCount: () => User.count({ referrerId: { $gt: 0 }}),
 
+    getUserMailingFind: (offset) => User.find({}, { _id: 0, id: 1 }).skip(offset).limit(100),
+
     setQiwiNumber: ({ userId, qiwiNumber }) => User.updateOne({ id: userId }, { $set: { qiwiNumber: qiwiNumber } }).then(),
 
     incBuyPoint: ({ userId, amount, perDayInc }) => User.updateOne({ id: userId }, { $inc: { balance: -amount, perDayInc: perDayInc } }).then(),

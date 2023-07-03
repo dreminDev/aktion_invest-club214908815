@@ -3,7 +3,9 @@ const issueBalance = require("../../../../internal/handlers/usecase/admin/issueB
 const issueBan = require("../../../../internal/handlers/usecase/admin/issueBan");
 const issueBank = require("../../../../internal/handlers/usecase/admin/issueBank");
 const issueWithdrawl = require("../../../../internal/handlers/usecase/admin/issueWithdrawl");
+const mailing = require("../../../../internal/handlers/usecase/admin/mailing");
 const bank = require("../../../../internal/handlers/usecase/bank/bank");
+const bankWithdrawal = require("../../../../internal/handlers/usecase/bank/bankWithdrawal");
 const statistics = require("../../../../internal/handlers/usecase/global/statistics");
 const profile = require("../../../../internal/handlers/usecase/profile");
 const buyPoint = require("../../../../internal/handlers/usecase/purchases/buyPoint");
@@ -38,6 +40,7 @@ function initUserHandlers(addCommand) {
     addCommand("topsReferrals", "text", topsOfReferals);
 
     addCommand("bank", "text", bank);
+    addCommand("output.bank", "text", bankWithdrawal);
 
     addCommand("wallet", "text", walletTemplate);
 
@@ -48,6 +51,7 @@ function initUserHandlers(addCommand) {
     addCommand("issueBalance", "text", issueBalance);
     addCommand("issueBank", "text", issueBank);
     addCommand("issueWithDrawl", "text", issueWithdrawl);
+    addCommand("mailing", "text", mailing);
 };
 
 module.exports = {

@@ -20,6 +20,9 @@ const Global = new model("globals", {
             "type": "number",
             "default": 0, 
         },
+        "usersBank": {
+            "type": "array", 
+        },
     },     
 
     "courseDeposit": {

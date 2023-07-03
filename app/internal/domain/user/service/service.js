@@ -21,6 +21,7 @@ const {
     newPaymentKeksikQiwiInfo,
     newVkDonutInfo,
     newMailingInfo,
+    newBankWithdrawlInfo,
 } = require("../model/user");
 const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 
@@ -347,17 +348,81 @@ async function getVkDonutInfoUser(userId) {
     return data;
 };
 
-async function getMailingAdmin() {
-    
+async function getMailingAdmin(text, attachment, countUsers) {
+    let offset = 0;
 
+    const startTimeDialogs = Date.now();
+
+    for (let i = 0; i < countUsers; i++) {
+        const mailingUser = await dbUser.getUserMailingFind(offset);
+
+        const userIds = mailingUser.map(x => x.id);
+
+        const ids = userIds.join(',');
+
+        offset += 100;
+
+        await Utils.sleep(100);
+
+        vkUtils.msg({
+            peerId: ids,
+            message: text,
+            attachment: attachment,
+        });
+    };
 
     const data = newMailingInfo({
-        "count": 1,
-        "time": 22,
+        "countMsg": countUsers * 100,
+        "timeEnd": (Date.now() - startTimeDialogs) / 1_000,
     });
 
     return data;
 
+};
+
+async function getBankWithdrawlUser(userId) {
+    const [userResponse, global] = await Promise.all([
+        dbUser.get(userId, {
+            _id: 0,
+            vkDonut: 1,
+        }),
+        dbGlobal.get({
+            _id: 0,
+            bank: 1,
+            courseDeposit: 1,
+        }),
+    ]);
+
+    const { vkDonut } = userResponse;
+    const { courseDeposit } = global;
+    const { count, amount, usersBank } = global.bank; 
+
+    const amountСurrency = amount * courseDeposit; 
+
+    console.log(usersBank)
+
+    if (!vkDonut) {
+        throw new Error("missing vkDonut subscription");
+    };
+
+    if (usersBank.includes(userId)) {
+        throw new Error("you have already collected the bank");
+    };
+
+    if (count <= 0) {
+        throw new Error("all the players took the pot");
+    };
+
+    Promise.all([
+        dbGlobal.incBankUser(userId),
+        dbUser.incUserWithdrawalBalance(userId, amountСurrency),
+    ]);
+
+    const data = newBankWithdrawlInfo({
+        "amount": amount,
+    });
+
+    return data;
 };
 
 
@@ -372,5 +437,7 @@ module.exports = {
     getWalletTemplateData,
     handleKeksikDeposit,
     getPaymentKeksikQiwi,
-    getVkDonutInfoUser
+    getVkDonutInfoUser,
+    getMailingAdmin,
+    getBankWithdrawlUser,
 };

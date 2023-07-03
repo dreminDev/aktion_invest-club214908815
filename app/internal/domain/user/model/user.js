@@ -77,8 +77,14 @@ function newVkDonutInfo(data) {
 
 function newMailingInfo(data) {
     return {
-        "count": data.count,
-        "time": data.time,
+        "countMsg": data.countMsg,
+        "timeEnd": data.timeEnd,
+    };
+};
+
+function newBankWithdrawlInfo(data) {
+    return {
+        "amount": data.amount
     };
 };
 
@@ -94,5 +100,6 @@ module.exports = {
     newKeksikDepositInfo,
     newPaymentKeksikQiwiInfo,
     newVkDonutInfo,
-    newMailingInfo
+    newMailingInfo,
+    newBankWithdrawlInfo,
 };

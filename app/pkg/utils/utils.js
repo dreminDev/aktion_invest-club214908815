@@ -4,6 +4,9 @@ const Utils = {
      
         return `${date.getHours()}:${date.getMinutes().toString().length >= 2 ? date.getMinutes() : '0' + date.getMinutes()}:${date.getSeconds().toString().length >= 2 ? date.getSeconds() : '0' + date.getSeconds()}`
     },
+    sleep: (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    },
     readNumber: (number) => {
         return Math.round(Math.floor(number * 1000) / 10) / 100;
     },
