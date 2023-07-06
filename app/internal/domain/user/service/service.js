@@ -26,7 +26,7 @@ const {
 } = require("../model/user");
 const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 
-
+// что за попа, почему в одном файле всё блин
 
 async function getProfileData(userId) {
     const [user, global] = await Promise.all([
@@ -74,7 +74,7 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
     let validationNumber;
 
     try {
-        validationNumber = await isValidPhoneNumber(
+        validationNumber = isValidPhoneNumber(
             qiwiNumber,
             phoneNumber.country,
         );
@@ -84,7 +84,7 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
         throw new Error("qiwi number failed validation");
     };
 
-    dbUser.setQiwiNumber({ userId: userId, qiwiNumber: qiwiNumber });
+    await dbUser.setQiwiNumber({ userId: userId, qiwiNumber: qiwiNumber });
 
     const data = newQiwiNumberInfo({
         "qiwiNumber": qiwiNumber,

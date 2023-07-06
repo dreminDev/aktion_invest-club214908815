@@ -1,19 +1,37 @@
-const { handleError } = require("../../../../error/customError");
-const { getBonusDaily } = require("../../../domain/user/service/serviceBonus");
+const { handleError } = require('../../../../error/customError')
+const { getBonusDaily } = require('../../../domain/user/service/serviceBonus')
 
-const { Utils } = require("../../../../pkg/utils/utils");
+const { Utils } = require('../../../../pkg/utils/utils')
+const { dailyBonusTake } = require('../../../../pkg/keyboard/inline')
 
-module.exports = async (msg) => {
-    try {
+const dailyBonusInfo = async (msg) => {
+  try {
+    const userId = msg.senderId
 
-        const userId = msg.senderId;
+    const output = await getBonusDaily(userId, false)
 
-        const data = await getBonusDaily(userId);
+    msg.send(`🎉 Твой бонус на сегодня:`, {
+      attachment: output.photo,
+      keyboard: dailyBonusTake
+    })
+  } catch (error) {
+    handleError(error, msg)
+  }
+}
 
-        const utilsAmount = Utils.formateNumberAddition(data.amount);
+const takeDailyBonus = async (msg) => {
+  try {
+    const userId = msg.senderId
 
-        msg.send(`🎉 Успешно! Улучшенный рандом, ты получил ${utilsAmount}$`)
-    } catch (error) {
-        handleError(error, msg)
-    }
-};
+    const output = await getBonusDaily(userId, true)
+
+    msg.send("💲 Бонус за сегодня начислен на баланс для покупок")
+  } catch (error) {
+    handleError(error, msg)
+  }
+}
+
+module.exports = {
+  takeDailyBonus, 
+  dailyBonusInfo
+}

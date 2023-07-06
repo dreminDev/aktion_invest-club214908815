@@ -30,6 +30,16 @@ const dbUser = {
 
     setDailyBonus: (userId, amount) => User.updateOne({ id: userId }, { $inc: { balance: amount }, $set: { lastBonusAt: Date.now() } }).then(),
 
+    updateBonusDay: (userId, day) => {
+      return User.updateOne({
+        id: userId, 
+      }, {
+        $set: {
+          "bonusDay": day,
+        }
+      })
+    },
+
     vkDonutStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { vkDonut: status } }).then(),
     
     setPurchasedVkDonut: (userId, status) => User.updateOne({ id: userId }, { $set: { isPurchasedVkDonut: status } }).then(),

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./app/cmd/app/index.js",
+    "dev": "cls && nodemon ./app/cmd/app/index.js",
     "pm2": "pm2 start ./app/cmd/app/index.js"
   },
   "keywords": [],
@@ -19,5 +19,8 @@
     "node-cron": "^3.0.2",
     "vk-io": "^4.8.3",
     "vk-io-question": "^3.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

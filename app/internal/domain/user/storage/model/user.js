@@ -1,5 +1,6 @@
 const { model } = require('mongoose');
 
+// bread
 function validateID(id) {
     return id > 0;
 };
@@ -8,10 +9,10 @@ const User = new model("users", {
     "id": {
         "type": "number",
         "validate": {
-            "validator": validateID,
-            "message": props => `${props.value} is not valid user id`
+            "validator": validateID, // мог бы и тут прописать функцию
+            "message": props => `${props.value} is not valid user id` // красава
         },
-        unique: true,
+        unique: true, // а кавычки где
         "index": "true",
         "required": "true",
     },
@@ -30,7 +31,8 @@ const User = new model("users", {
 
     "vkDonut": {
         "type": "boolean",
-        "default": false,
+        "default": false, 
+        "index": "true",
     },
 
     "isPurchasedVkDonut": {
@@ -73,6 +75,10 @@ const User = new model("users", {
     "lastBonusAt": {
         "type": "number",
         "default": 0,
+    },
+    "bonusDay": {
+      "type": "number",
+      "default": 1
     },
 
     "ban": {

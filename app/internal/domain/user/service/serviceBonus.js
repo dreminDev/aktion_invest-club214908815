@@ -7,7 +7,29 @@ const {
 } = require("../model/user");
 const { Utils } = require("../../../../pkg/utils/utils");
 
+const dailyBonuses = require("../../../../../dailyBonuses.json")
 
+const donutChargePercent = process.env?.ADDITIONAL_DONUT_CHARGE_PERCENT || 10
+
+const chargedDonutAward = (award, percent) => {
+  return award + (award * (percent / 100))
+}
+
+const dailyAward = (day, isVkDonut) => {
+  const bonus = dailyBonuses?.[day]
+  console.log(bonus)
+  if (!bonus) {
+    return {
+      award: 10_000,
+      photo: ""
+    }
+  }
+
+  return {
+    award: isVkDonut ? chargedDonutAward(bonus.award, donutChargePercent) : bonus.award,
+    photo: isVkDonut ? bonus.donut_photo : bonus.photo
+  }
+}
 
 async function getCommentUser(userId, subTypes) {
     const { vkDonut } = await dbUser.get(userId, {
@@ -36,12 +58,16 @@ async function getCommentUser(userId, subTypes) {
     return data;
 };
 
-async function getBonusDaily(userId) {
-    const { lastBonusAt, vkDonut } = await dbUser.get(userId, {
+async function getBonusDaily(userId, isNeedToTake) {
+    const user = await dbUser.get(userId, {
         _id: 0,
         lastBonusAt: 1,
         vkDonut: 1,
+        bonusDay: 1, 
     });
+
+    const { lastBonusAt, vkDonut } = user 
+    let { bonusDay } = user 
 
     const today = new Date();
     const lastTimeBonus = (today - lastBonusAt);
@@ -50,13 +76,27 @@ async function getBonusDaily(userId) {
         throw new Error("the day hasn't passed yet");
     };
 
-    const amount = vkDonut ? Utils.random(40_000, 90_000) : Utils.random(10_000, 30_000);
+    console.debug(lastTimeBonus / 86_400_000, 'bonus in days')
 
-    dbUser.setDailyBonus(userId, amount);
+    console.log(bonusDay)
 
-    const data = newDailyBonusInfo({
-        "amount": amount,
-    });
+    if ((lastTimeBonus / 86_400_000 >= 2 && bonusDay > 1) || bonusDay === 7) {
+      await dbUser.updateBonusDay(userId, 1)
+
+      bonusDay = 1 
+    } else if (isNeedToTake) {
+      await dbUser.updateBonusDay(userId, bonusDay + 1)
+    }
+
+    const awardInfo = dailyAward(bonusDay, vkDonut)
+
+    const data = newDailyBonusInfo(awardInfo);
+
+    if (!isNeedToTake) {
+      return data 
+    }
+
+    await dbUser.setDailyBonus(userId, awardInfo.award);
 
     return data;
 };
