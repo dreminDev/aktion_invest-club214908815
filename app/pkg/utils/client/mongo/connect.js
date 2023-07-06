@@ -1,6 +1,6 @@
 const { set, connect } = require("mongoose");
 
-require("dotenv").config();
+require("dotenv").config()
 
 const { Utils } = require("../../utils");
 

@@ -20,9 +20,9 @@ const dbUser = {
 
     setTaxStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { taxCharged: status } }).then(),
 
-    topReferrals: (limit) => User.find({}, { _id: 0, id: 1, referralCount: 1 }).sort({ referralCount: -1 }).limit(limit).lean(),
+    topReferrals: (limit) => User.find({ admin: false }, { _id: 0, id: 1, referralCount: 1 }).sort({ referralCount: -1 }).limit(limit).lean(),
 
-    topPerDayInc: (limit) => User.find({}, { _id: 0, id: 1, perDayInc: 1 }).sort({ perDayInc: -1 }).limit(limit).lean(),
+    topPerDayInc: (limit) => User.find({ admin: false }, { _id: 0, id: 1, perDayInc: 1 }).sort({ perDayInc: -1 }).limit(limit).lean(),
 
     incUserBalance: (userId, amount) => User.updateOne({ id: userId }, { $inc: { balance: amount } }).then(),
 

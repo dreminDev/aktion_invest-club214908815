@@ -8,8 +8,8 @@ const KEKSIK_VERIFICATION_CODE = process.env.KEKSIK_VERIFICATION_CODE;
 
 module.exports = async (req, res) => {
     try {
-        if (req.body.type === "confirmation") {
-            return req.send(
+        if (req.body.type == "confirmation") {
+            return res.send(
                 JSON.stringify({ status: "ok", code: KEKSIK_VERIFICATION_CODE })
             );
         };
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
         };
 
         if (!validatedData.userId || !validatedData.amount) {
-            res.status(422)
+            res.status(422);
             return res.send(JSON.stringify({ status: "err",
                 error: "one or more parameters were not specified"
             })
