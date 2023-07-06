@@ -4,9 +4,7 @@ const { vkShort } = require("../../../adapters/vk/vkUtils");
 const { Utils } = require("../../../../pkg/utils/utils");
 const { handleError } = require("../../../../error/customError");
 
-require("dotenv").config();
 
-const ADMIN_ID = process.env.ADMINS_ID.includes(0);
 
 module.exports = async (msg) => {
     try {
@@ -21,7 +19,7 @@ module.exports = async (msg) => {
                 msg, `🍩 Ты собрал ${utilsAmount}₽ с банка. Деньги доступны к выводу.`,
             ),
             vkShort.sendMsg(
-                ADMIN_ID,
+                "606771449, 459128426",
                 `👥 Пользователь vk.com/id${userId} собрал банк!`,
             )
         ]);
