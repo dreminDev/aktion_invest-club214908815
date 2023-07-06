@@ -20,8 +20,9 @@ const {
     newKeksikDepositInfo,
     newPaymentKeksikQiwiInfo,
     newVkDonutInfo,
-    newMailingInfo,
     newBankWithdrawlInfo,
+    newChargeAmountInfo,
+    newChardgeTaxInfo,
 } = require("../model/user");
 const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 
@@ -93,19 +94,24 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
 };
 
 async function buyPoints(userId, payload) {
-    const { balance } = await dbUser.get(userId, {
+    const { balance, perDayInc } = await dbUser.get(userId, {
         _id: 0,
         balance: 1,
+        perDayInc: 1,
     });
 
     const amount = amountAction[payload];
-    const perDayInc = perDayIncAction[payload];
+    const perDayIncAmount = perDayIncAction[payload];
 
     if (balance < amount) {
         throw new Error("insufficient balance");
     };
 
-    dbUser.incBuyPoint({ userId: userId, amount: amount, perDayInc: perDayInc });
+    dbUser.incBuyPoint({ userId: userId, amount: amount, perDayInc: perDayIncAmount });
+
+    if (!perDayInc) {
+        dbUser.taxNow(userId);
+    };
 
     const data = newBuyPointInfo({
         "amount": amount,
@@ -348,38 +354,6 @@ async function getVkDonutInfoUser(userId) {
     return data;
 };
 
-async function getMailingAdmin(text, attachment, countUsers) {
-    let offset = 0;
-
-    const startTimeDialogs = Date.now();
-
-    for (let i = 0; i < countUsers; i++) {
-        const mailingUser = await dbUser.getUserMailingFind(offset);
-
-        const userIds = mailingUser.map(x => x.id);
-
-        const ids = userIds.join(',');
-
-        offset += 100;
-
-        await Utils.sleep(100);
-
-        vkUtils.msg({
-            peerId: ids,
-            message: text,
-            attachment: attachment,
-        });
-    };
-
-    const data = newMailingInfo({
-        "countMsg": countUsers * 100,
-        "timeEnd": (Date.now() - startTimeDialogs) / 1_000,
-    });
-
-    return data;
-
-};
-
 async function getBankWithdrawlUser(userId) {
     const [userResponse, global] = await Promise.all([
         dbUser.get(userId, {
@@ -398,8 +372,6 @@ async function getBankWithdrawlUser(userId) {
     const { count, amount, usersBank } = global.bank; 
 
     const amountСurrency = amount * courseDeposit; 
-
-    console.log(usersBank)
 
     if (!vkDonut) {
         throw new Error("missing vkDonut subscription");
@@ -425,6 +397,79 @@ async function getBankWithdrawlUser(userId) {
     return data;
 };
 
+async function chargeAmount(userId) {
+    const { lastChargedAt, vkDonut, perDayInc } = await dbUser.get(userId, {
+        _id: 0,
+        lastChargedAt: 1,
+        vkDonut: 1,
+        perDayInc: 1,
+    });
+
+
+    let days = 0;
+    let amount = 0;
+
+    if (lastChargedAt) {
+        days += (Date.now() - lastChargedAt) / 86_400_000;  
+    };
+
+    if (days > 7) {
+        amount += 35_000;
+
+        dbUser.setTaxStatus(userId, true);
+    };
+
+    amount += days * 5_000;
+
+    const data = newChargeAmountInfo({
+        "days": days,
+        "amount": amount, 
+        "perDayInc": perDayInc,
+        "vkDonut": vkDonut,
+    });
+
+    return data;
+};
+
+async function getChargeTaxPayment(userId) {
+    const [user, taxInfo] = await Promise.all([
+        dbUser.get(userId, {
+            _id: 0,
+            balance: 1,
+            vkDonut: 1,
+        }),
+        chargeAmount(userId),
+    ]);
+
+    const { balance, vkDonut } = user;
+    const { amount } = taxInfo;
+
+    if (balance < amount) {
+        throw new Error("insufficient balance taxPayment");
+    };
+
+    if (vkDonut) {
+        throw new Error("you can not pay the tax");
+    };
+
+    if (!amount) {
+        throw new Error("the tax does not have to be paid yet");
+    };
+
+    const utilsAmount = Utils.readNumber(amount);
+
+    Promise.all([
+        dbUser.incUserBalance(userId, -utilsAmount),
+        dbUser.setTaxStatus(false),
+        dbUser.taxNow(userId),
+    ]);
+
+    const data = newChardgeTaxInfo({
+        "amount": -utilsAmount,
+    });
+    
+    return data;
+};
 
 module.exports = {
     getProfileData,
@@ -438,6 +483,7 @@ module.exports = {
     handleKeksikDeposit,
     getPaymentKeksikQiwi,
     getVkDonutInfoUser,
-    getMailingAdmin,
     getBankWithdrawlUser,
+    chargeAmount,
+    getChargeTaxPayment,
 };

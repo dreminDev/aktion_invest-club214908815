@@ -1,10 +1,11 @@
 const { getRandomId, resolveResource } = require("vk-io");
-
 const { api } = require("./vk");
 
+require("dotenv").config();
 const { Utils } = require("../../../pkg/utils/utils");
 
 const log = console.log;
+const GROUP_ID = process.env.GROUP_ID;
 
 const vkUtils = {
     msg: ({ peerId, message, attachment, keyboard, template }) => {
@@ -37,12 +38,12 @@ const vkUtils = {
             });
         };
 
-        api.messages.sendMessageEventAnswer(data).catch((err) => { 
+        api.messages.sendMessageEventAnswer(data).catch((err) => {
             log(`${Utils.getTime()}`, err);
         });
     },
     getRefShortUrl: async (userId) => {
-        const url = `vk.me/public${process.env.GROUP_ID}?ref=${userId}`;
+        const url = `vk.me/public${GROUP_ID}?ref=${userId}`;
         const short = (await api.utils.getShortLink({ url })).short_url;
 
         return short;
@@ -65,6 +66,14 @@ const vkUtils = {
         const resource = await resolveResource({ api: api, resource: url });
 
         return resource.id;
+    },
+    getUserSigned: async (userId) => {
+        const data = await api.groups.isMember({
+            group_id: GROUP_ID,
+            user_id: userId,
+        });
+
+        return data;
     },
 };
 

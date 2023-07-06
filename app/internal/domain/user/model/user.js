@@ -88,6 +88,27 @@ function newBankWithdrawlInfo(data) {
     };
 };
 
+function newCommentBonusInfo(data) {
+    return {
+        "amount": data.amount,
+    };
+};
+
+function newChargeAmountInfo(data) {
+    return {
+        "days": data.days,
+        "amount": data.amount,
+        "perDayInc": data.perDayInc, 
+        "vkDonut": data.vkDonut,
+    };
+};
+
+function newChardgeTaxInfo(data) {
+    return {
+        "amount": data.amount,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -102,4 +123,7 @@ module.exports = {
     newVkDonutInfo,
     newMailingInfo,
     newBankWithdrawlInfo,
+    newCommentBonusInfo,
+    newChargeAmountInfo,
+    newChardgeTaxInfo,
 };

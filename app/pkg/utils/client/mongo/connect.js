@@ -2,7 +2,7 @@ const { set, connect } = require("mongoose");
 
 require("dotenv").config();
 
-const { Utils } = require("../../../../../pkg/utils/utils");
+const { Utils } = require("../../utils");
 
 const MONGO_URL = process.env.MONGO_URL;
 

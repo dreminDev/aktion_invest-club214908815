@@ -7,15 +7,19 @@ const adminKeyboard = keyboard([
         constructorKeyboard("text", "Рассылка", green, "mailing"),
     ],
     [
-        constructorKeyboard("text", "Выдать", gray, "issueBalance"),
+        constructorKeyboard("text", "Выдать", blue, "issueBalance"),
 
-        constructorKeyboard("text", "Выдать на вывод", gray, "issueWithDrawl"),
-
-        constructorKeyboard("text", "Пополнить банк", gray, "issueBank"),
+        constructorKeyboard("text", "Выдать на вывод", blue, "issueWithDrawl"),
     ],
     [
-        constructorKeyboard("text", "Создать промокод", blue, "createPromo"),
+        constructorKeyboard("text", "Создать промокод", green, "createPromo"),
+    ],
+    [
+        constructorKeyboard("text", "Пополнить банк", blue, "issueBank"),
 
+        constructorKeyboard("text", "Пополнить вывод", red, "issueWithdrawlGlobal"),
+    ],
+    [
         constructorKeyboard("text", "Бан/разбан", blue, "ban&razban"),
     ]
 ]).inline();

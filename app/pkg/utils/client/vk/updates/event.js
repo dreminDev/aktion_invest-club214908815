@@ -1,4 +1,4 @@
-const { updates } = require("../../../../internal/adapters/vk/vk");
+const { updates } = require("../../../../../internal/adapters/vk/vk");
 
 const { executeCommand } = require("../commandManagers/executeCommand");
 

@@ -1,11 +1,11 @@
-const { vkShort } = require("../../../internal/adapters/vk/vkUtils");
+const { vkShort } = require("../internal/adapters/vk/vkUtils");
 
 require("dotenv").config();
 
 const GROUP_ID = process.env.GROUP_ID
 
 function handleError(error, msg) {
-    const userId = msg.senderId || msg.userId;
+    const userId = msg.senderId || msg.userId || msg.fromId || msg.deleterUserId || msg;
 
     switch (error.message) {
         case "qiwi number failed validation":
@@ -14,10 +14,19 @@ function handleError(error, msg) {
         case "insufficient balance":
             vkShort.sendAnswer(msg, "🙁 Недостаточно средств!");
             break;
-        case "missing QIWI number": 
+        case "insufficient balance taxPayment":
+            vkShort.sendMsg(userId,"🚫 Недостаточно средств для оплаты налогов.");
+            break;
+        case "you can not pay the tax": 
+            vkShort.sendMsg(userId, "🚫 VK Donut подписчики могут не оплачивать налог");
+            break;
+        case "the tax does not have to be paid yet":
+            vkShort.sendMsg(userId, "🚫 Налога еще нет, попробуйте оплатить позже");
+            break;
+        case "missing QIWI number":
             vkShort.sendMsg(userId, "❗️ У вас не указан номер QIWI");
             break;
-        case "the balance is less than the validation amount": 
+        case "the balance is less than the validation amount":
             vkShort.sendMsg(userId, "❗️ Минимальный вывод 20₽");
             break;
         case "missing vkDonut subscription":
@@ -38,7 +47,7 @@ function handleError(error, msg) {
         case "you have already collected the bank":
             vkShort.sendAnswer(msg, "❗️ Вы уже собирали банк сегодня.");
             break;
-        default: 
+        default:
             console.log(error);
             vkShort.sendMsg(userId, "❗️ Неизвестная ошибка :(");
     };

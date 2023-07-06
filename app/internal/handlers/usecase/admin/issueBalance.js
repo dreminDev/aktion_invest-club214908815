@@ -2,7 +2,7 @@ const { dbUser } = require("../../../domain/user/storage/mongo/managers/dbUserMa
 const { vkUtils } = require("../../../adapters/vk/vkUtils");
 
 const { Utils } = require("../../../../pkg/utils/utils");
-const { handleError } = require("../../../../pkg/utils/error/customError");
+const { handleError } = require("../../../../error/customError");
 
 
 

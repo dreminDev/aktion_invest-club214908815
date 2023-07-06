@@ -1,4 +1,5 @@
-const { getMailingAdmin } = require("../../../domain/user/service/service");
+const { getMailingAdmin } = require("../../../domain/user/service/serviceAdmin");
+
 const { dbUser } = require("../../../domain/user/storage/mongo/managers/dbUserManagers");
 const { mailingVeryfeKeyboard, mailingAttachemntKeyboard } = require("../../../../pkg/keyboard/admin");
 

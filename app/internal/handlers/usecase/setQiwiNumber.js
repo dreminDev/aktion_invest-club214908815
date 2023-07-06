@@ -1,5 +1,5 @@
 const { setQiwiNumberForUser } = require("../../domain/user/service/service");
-const { handleError } = require("../../../pkg/utils/error/customError");
+const { handleError } = require("../../../error/customError");
 
 
 

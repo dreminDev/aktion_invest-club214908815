@@ -4,10 +4,10 @@ const commandEventList = {};
 
 function executeCommand(msg) {
 
-    const payload = msg?.eventPayload?.command || msg?.messagePayload?.command
+    const payload = msg?.eventPayload?.command || msg?.messagePayload?.command;
 
     if (typeof payload === 'undefined') {
-        return;
+        return { "executeCommand": "I'm sending it to promo codes for verification." };
     };
 
     try {

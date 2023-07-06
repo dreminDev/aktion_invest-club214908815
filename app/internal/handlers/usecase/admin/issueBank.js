@@ -1,5 +1,5 @@
 const { dbGlobal } = require("../../../domain/user/storage/mongo/managers/dbGlobalManagers");
-const { handleError } = require("../../../../pkg/utils/error/customError");
+const { handleError } = require("../../../../error/customError");
 
 
 

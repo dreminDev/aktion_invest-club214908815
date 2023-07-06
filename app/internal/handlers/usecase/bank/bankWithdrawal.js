@@ -1,7 +1,8 @@
 const { getBankWithdrawlUser } = require("../../../domain/user/service/service");
+
 const { vkShort } = require("../../../adapters/vk/vkUtils");
 const { Utils } = require("../../../../pkg/utils/utils");
-const { handleError } = require("../../../../pkg/utils/error/customError");
+const { handleError } = require("../../../../error/customError");
 
 require("dotenv").config();
 

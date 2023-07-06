@@ -1,10 +1,8 @@
 const { dbUser } = require("../../../domain/user/storage/mongo/managers/dbUserManagers");
 const { vkUtils } = require("../../../adapters/vk/vkUtils");
 
-const { handleError } = require("../../../../pkg/utils/error/customError");
-const { Utils } = require("../../../../pkg/utils/utils");
 const { dbGlobal } = require("../../../domain/user/storage/mongo/managers/dbGlobalManagers");
-
+const { handleError } = require("../../../../error/customError");
 
 
 module.exports = async (msg) => {

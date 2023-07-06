@@ -33,6 +33,11 @@ const User = new model("users", {
         "default": false,
     },
 
+    "isPurchasedVkDonut": {
+        "type": "boolean",
+        "default": false,
+    },
+
     "balance": {
         "type": "number",
         "default": 0,
@@ -53,6 +58,16 @@ const User = new model("users", {
     "qiwiNumber": {
         "type": "string",
         "default": '',
+    },
+
+    "taxCharged": {
+        "type": "boolean",
+        "default": false,
+    },
+
+    "lastChargedAt": {
+        "type": "number",
+        "default": 0,
     },
 
     "ban": {

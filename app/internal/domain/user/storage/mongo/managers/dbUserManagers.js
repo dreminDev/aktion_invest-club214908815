@@ -16,6 +16,10 @@ const dbUser = {
 
     incBuyPoint: ({ userId, amount, perDayInc }) => User.updateOne({ id: userId }, { $inc: { balance: -amount, perDayInc: perDayInc } }).then(),
 
+    taxNow: (userId) => User.updateOne({ id: userId }, { $set: { lastChargedAt: new Date() } }).then(),
+
+    setTaxStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { taxCharged: status } }).then(),
+
     topReferrals: (limit) => User.find({}, { _id: 0, id: 1, referralCount: 1 }).sort({ referralCount: -1 }).limit(limit).lean(),
 
     topPerDayInc: (limit) => User.find({}, { _id: 0, id: 1, perDayInc: 1 }).sort({ perDayInc: -1 }).limit(limit).lean(),
@@ -23,6 +27,9 @@ const dbUser = {
     incUserBalance: (userId, amount) => User.updateOne({ id: userId }, { $inc: { balance: amount } }).then(),
 
     incUserWithdrawalBalance: (userId, amount) => User.updateOne({ id: userId }, { $inc: { availableBalance: amount } }).then(),
+
+    vkDonutStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { vkDonut: status } }).then(),
+    setPurchasedVkDonut: (userId, status) => User.updateOne({ id: userId }, { $set: { isPurchasedVkDonut: status } }).then(),
 
     incInvest: ({ userId, amount }) => User.updateOne({ id: userId }, { $inc: { availableBalance: amount } }).then(),
 

@@ -1,6 +1,6 @@
 const { buyPoints } = require("../../../domain/user/service/service");
-const { handleError } = require("../../../../pkg/utils/error/customError");
 const { vkShort } = require("../../../adapters/vk/vkUtils");
+const { handleError } = require("../../../../error/customError");
 
 
 

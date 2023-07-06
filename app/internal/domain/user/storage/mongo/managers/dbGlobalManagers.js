@@ -17,13 +17,13 @@ const dbGlobal = {
     
     incOutputAmount: (amount) => Global.updateMany({ $inc: { outputTotal: amount, outputDay: amount, globalBalanceWithdrawal: -amount } }),
 
-    incWithdrawalBalance: (amount) => Global.updateMany({ $inc: { balanceWithdrawal: amount } }),
+    incWithdrawalBalance: (amount) => Global.updateMany({ $inc: { globalBalanceWithdrawal: amount } }),
 
     incBankUser: (userId) => Global.updateMany({ $inc: { "bank.count": -1 }, $push: { "bank.usersBank": userId } }),
 
     setNewDay: () => Global.updateMany({ $set: { depositDay: 0, outputDay: 0 } }),
 
-    depositBank: (amount, count) => Global.updateMany({ $set: { "bank.count": count, "bank.amount": amount } }).then(),
+    depositBank: (amount, count) => Global.updateMany({ $set: { "bank.count": count, "bank.amount": amount, "bank.usersBank": [] } }).then(),
 };
 
 module.exports = {
