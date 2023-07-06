@@ -15,9 +15,12 @@ function handleError(error, msg) {
             vkShort.sendAnswer(msg, "🙁 Недостаточно средств!");
             break;
         case "insufficient balance taxPayment":
-            vkShort.sendMsg(userId,"🚫 Недостаточно средств для оплаты налогов.");
+            vkShort.sendMsg(userId, "🚫 Недостаточно средств для оплаты налогов.");
             break;
-        case "you can not pay the tax": 
+        case "the day hasn't passed yet":
+            vkShort.sendMsg(userId, "🕛 24 часа еще не прошло, возвращайся позже!");
+            break
+        case "you can not pay the tax":
             vkShort.sendMsg(userId, "🚫 VK Donut подписчики могут не оплачивать налог");
             break;
         case "the tax does not have to be paid yet":

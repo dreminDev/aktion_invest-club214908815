@@ -109,6 +109,12 @@ function newChardgeTaxInfo(data) {
     };
 };
 
+function newDailyBonusInfo(data) {
+    return {
+        "amount": data.amount,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -126,4 +132,5 @@ module.exports = {
     newCommentBonusInfo,
     newChargeAmountInfo,
     newChardgeTaxInfo,
+    newDailyBonusInfo,
 };

@@ -69,6 +69,11 @@ const User = new model("users", {
         "type": "number",
         "default": 0,
     },
+    
+    "lastBonusAt": {
+        "type": "number",
+        "default": 0,
+    },
 
     "ban": {
         "type": "boolean",
