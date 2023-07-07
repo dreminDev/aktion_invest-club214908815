@@ -34,7 +34,7 @@ async function createUser(id, referrerId = 0) {
 
             const amount = Utils.formateNumberAddition(refAmount);
 
-            User.updateOne({ id: referrerId }, { $inc: { referralCount: 1, balance: amount } }).then(),
+            User.updateOne({ id: referrerId }, { $inc: { referralCount: 1, balance: refAmount } }).then(),
 
             vkUtils.msg({
                 peerId: referrerId,
