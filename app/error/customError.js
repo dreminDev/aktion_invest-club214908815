@@ -53,6 +53,9 @@ function handleError(error, msg) {
         case "you have already collected the bank":
             vkShort.sendAnswer(msg, "❗️ Вы уже собирали банк сегодня.");
             break;
+        case "not count tops validation":
+            vkShort.sendMsg(userId, "🚫 Еще нет достаточного количества участников для выведения топа.");
+            break;
         default:
             console.log(error);
             vkShort.sendMsg(userId, "❗️ Неизвестная ошибка :(");

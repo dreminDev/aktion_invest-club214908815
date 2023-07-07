@@ -177,6 +177,12 @@ async function getTopOfReferralsData() {
 
     const topsReferralsData = await dbUser.topReferrals(limitTops);
 
+    const countUsers = topsReferralsData.length;
+
+    if (countUsers < limitTops) {
+        throw new Error("not count tops validation");
+    };
+
     let message = `👥 Топ по приглашенным людям:\n\n`;
 
     function saveText(text) {
@@ -206,13 +212,19 @@ async function getTopsOfPerDayInc() {
 
     const topsPerDayIncData = await dbUser.topPerDayInc(limitTops);
 
+    const countUsers = topsPerDayIncData.length;
+
+    if (countUsers < limitTops) {
+        throw new Error("not count tops validation");
+    };
+
     let message = `💲 Топ по доходу:\n\n`;
 
     function saveText(text) {
         message += text;
     };
 
-    for (let i = 0; i < topsPerDayIncData.length; i++) {
+    for (let i = 0; i < countUsers; i++) {
         const element = topsPerDayIncData[i];
 
         const userId = element.id;
