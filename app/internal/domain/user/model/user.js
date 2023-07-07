@@ -111,7 +111,8 @@ function newChardgeTaxInfo(data) {
 
 function newDailyBonusInfo(data) {
     return {
-        "amount": data.amount,
+        "amount": data.award,
+        "photo": data.photo 
     };
 };
 

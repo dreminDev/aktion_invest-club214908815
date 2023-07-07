@@ -8,6 +8,12 @@ const profileKeyboard = keyboard([
     ]
 ]).inline();
 
+const dailyBonusTake = keyboard([
+  [
+    constructorKeyboard("text", "Забрать", green, "takeDailyBonus")
+  ]
+]).inline()
+
 const topsKeyboard = keyboard([
     [
         constructorKeyboard("text", "💰 Топ по доходу", gray, "topsIncome"),
@@ -45,4 +51,5 @@ module.exports = {
     topsKeyboard,
     bankKeyboard,
     taxPaymentKeyboard,
+    dailyBonusTake,
 };

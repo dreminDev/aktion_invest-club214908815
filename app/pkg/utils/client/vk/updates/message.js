@@ -40,7 +40,6 @@ function updatesMessage() {
                 return ActivateHandler(userId, msg.text);
             };
         } catch (error) {
-           // console.log(error);
         }
     });
 };

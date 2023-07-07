@@ -8,7 +8,7 @@ const issueWithdrawlUser = require("../../../../../internal/handlers/usecase/adm
 const mailing = require("../../../../../internal/handlers/usecase/admin/mailing");
 const bank = require("../../../../../internal/handlers/usecase/bank/bank");
 const bankWithdrawal = require("../../../../../internal/handlers/usecase/bank/bankWithdrawal");
-const dayilyBonus = require("../../../../../internal/handlers/usecase/bonus/dayilyBonus");
+const { dailyBonusInfo, takeDailyBonus } = require("../../../../../internal/handlers/usecase/bonus/dayilyBonus");
 const statistics = require("../../../../../internal/handlers/usecase/global/statistics");
 const profile = require("../../../../../internal/handlers/usecase/profile");
 const buyPoint = require("../../../../../internal/handlers/usecase/purchases/buyPoint");
@@ -49,7 +49,8 @@ function initUserHandlers(addCommand) {
 
     addCommand("output.qiwi", "event", withdrawalQiwi);
 
-    addCommand("dailyBonus", "text", dayilyBonus);
+    addCommand("dailyBonus", "text", dailyBonusInfo);
+    addCommand("takeDailyBonus", "text", takeDailyBonus);
 
     addCommand("admin", "event", admin);
     addCommand("ban&razban", "text", issueBan);

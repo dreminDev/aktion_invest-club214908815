@@ -1,9 +1,14 @@
 const { getTopsOfPerDayInc } = require("../../../domain/user/service/service");
-
+const { handleError } = require("../../../../error/customError");
 
 
 module.exports = async (msg) => {
-    const { text } = await getTopsOfPerDayInc();
+    try {
+        const { text } = await getTopsOfPerDayInc();
 
-    msg.send(text);
+        msg.send(text);
+
+    } catch (error) {
+        handleError(error, msg);
+    };
 };

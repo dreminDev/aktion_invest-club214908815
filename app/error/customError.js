@@ -11,6 +11,9 @@ function handleError(error, msg) {
         case "qiwi number failed validation":
             vkShort.sendMsg(userId, "❗️ Номер введён неправильно, формат был предоставлен выше.");
             break;
+        case "missing vkDonut subscription comment":
+            vkShort.sendMsg(userId, `🚫 Чтобы получать бонусы за комментарии нужен VK Donut\n\n• Купить - https://vk.com/donut/club${GROUP_ID}`);
+            break;
         case "insufficient balance":
             vkShort.sendAnswer(msg, "🙁 Недостаточно средств!");
             break;
@@ -49,6 +52,9 @@ function handleError(error, msg) {
             break;
         case "you have already collected the bank":
             vkShort.sendAnswer(msg, "❗️ Вы уже собирали банк сегодня.");
+            break;
+        case "not count tops validation":
+            vkShort.sendMsg(userId, "🚫 Еще нет достаточного количества участников для выведения топа.");
             break;
         default:
             console.log(error);

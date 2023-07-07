@@ -4,6 +4,7 @@ const { dbUser } = require("../storage/mongo/managers/dbUserManagers");
 const { 
     newMailingInfo 
 } = require("../model/user");
+const { Utils } = require("../../../../pkg/utils/utils");
 
 
 async function getMailingAdmin(text, attachment, countUsers) {

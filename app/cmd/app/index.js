@@ -24,8 +24,8 @@ const { vkDonutStart } = require("../../pkg/utils/client/vk/updates/vkDonut");
     startVK();
     startApiVk();
 
-    //serverStart();
-    //startRoutes();
+    serverStart();
+    startRoutes();
 
     dbConnect();
     dbGlobal.add();
