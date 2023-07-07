@@ -45,7 +45,5 @@ module.exports = async (msg) => {
         const { countMsg, timeEnd } = await getMailingAdmin(text, attachment, userCount / 100);
 
         msg.send(`📊 Статистика по рассылке:\n\n⏲ Рассылка разослана за: ${timeEnd} мс.\n💭 Отправлено: ${countMsg} сообщений.`);
-    } catch (error) {
-        console.log(error)
-    }
+    } catch {};
 };

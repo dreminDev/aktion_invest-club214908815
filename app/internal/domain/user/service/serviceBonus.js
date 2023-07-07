@@ -17,7 +17,7 @@ const chargedDonutAward = (award, percent) => {
 
 const dailyAward = (day, isVkDonut) => {
   const bonus = dailyBonuses?.[day]
-  console.log(bonus)
+
   if (!bonus) {
     return {
       award: 10_000,
@@ -40,15 +40,15 @@ async function getCommentUser(userId, subTypes) {
     const amount = 15;
 
     if (!vkDonut) {
-        throw new Error("missing vkDonut subscription");
+        throw new Error("missing vkDonut subscription comment");
     };
 
     if (subTypes.includes("wall_reply_new")) {
-        return dbUser.incUserBalance(userId, amount);
+        dbUser.incUserBalance(userId, amount);
     };
 
     if (subTypes.includes("wall_reply_delete")) {
-        return dbUser.incUserBalance(userId, -amount);
+        dbUser.incUserBalance(userId, -amount);
     };
 
     const data = newCommentBonusInfo({
@@ -75,10 +75,6 @@ async function getBonusDaily(userId, isNeedToTake) {
     if (lastTimeBonus < 86_400_000) {
         throw new Error("the day hasn't passed yet");
     };
-
-    console.debug(lastTimeBonus / 86_400_000, 'bonus in days')
-
-    console.log(bonusDay)
 
     if ((lastTimeBonus / 86_400_000 >= 2 && bonusDay > 1) || bonusDay === 7) {
       await dbUser.updateBonusDay(userId, 1)

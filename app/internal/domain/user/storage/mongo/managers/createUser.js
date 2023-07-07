@@ -43,7 +43,7 @@ async function createUser(id, referrerId = 0) {
         };
 
     } catch (e) {
-        console.log(e);
+        log(e);
     };
 };
 

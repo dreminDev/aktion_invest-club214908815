@@ -3,7 +3,15 @@ const { dbUser } = require("../../../domain/user/storage/mongo/managers/dbUserMa
 
 async function accrual() {
     setInterval(async() => {
-        const userList = await User.find({ ban: false, taxCharged: false }, { _id: 0, id: 1, perDayInc: 1 }).lean();
+        const userList = await User.find({ 
+            ban: false, 
+            taxCharged: false, 
+            perDayInc: { $gt: 0 }
+        }, { 
+            _id: 0, 
+            id: 1, 
+            perDayInc: 1 
+        }).lean();
         
         userList.forEach(async element => {
             const userId = element.id;
