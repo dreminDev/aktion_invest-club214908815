@@ -12,7 +12,8 @@ function handleError(error, msg) {
             vkShort.sendMsg(userId, "❗️ Номер введён неправильно, формат был предоставлен выше.");
             break;
         case "missing vkDonut subscription comment":
-            vkShort.sendMsg(userId, "🚫 Чтобы получать бонусы за комментарии нужен VK Donut\n\n• Купить - https://vk.com/donut/club${GROUP_ID}");
+            vkShort.sendMsg(userId, `🚫 Чтобы получать бонусы за комментарии нужен VK Donut\n\n• Купить - https://vk.com/donut/club${GROUP_ID}`);
+            break;
         case "insufficient balance":
             vkShort.sendAnswer(msg, "🙁 Недостаточно средств!");
             break;
