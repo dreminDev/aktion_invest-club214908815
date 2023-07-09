@@ -328,7 +328,7 @@ async function getPaymentKeksikQiwi(userId) {
         throw new Error("missing QIWI number");
     };
 
-    if (amount < 12) {
+    if (amount < 50) {
         throw new Error("the balance is less than the validation amount");
     };
 

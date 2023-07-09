@@ -10,6 +10,7 @@ module.exports = async (msg) => {
 
         Promise.all([
             vkShort.sendAnswer(msg, `✅ Вы успешно вывели ${amount}₽`),
+            vkShort.sendMsg(userId, "🎉 Успешный вывод! Оставьте отзыв тут - https://vk.com/topic-214908815_48989783"),
         ]);
     } catch (error) {
         handleError(error, msg);
