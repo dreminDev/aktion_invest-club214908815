@@ -64,6 +64,8 @@ function handleError(error, msg) {
                 keyboard: taxPaymentWithdrawKeyboard,
             });
             break;
+        case "have you already liked":
+            break;
         default:
             console.log(error);
             vkShort.sendMsg(userId, "❗️ Неизвестная ошибка :(");

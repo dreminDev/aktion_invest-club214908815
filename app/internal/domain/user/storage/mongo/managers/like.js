@@ -8,7 +8,7 @@ const dbLike = {
             likerId: userId,
             postId: postId,
             amount: amount, 
-            create_at: Date.now(),
+            created_at: Date.now(),
         });
     },
 };

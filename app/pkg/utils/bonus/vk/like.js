@@ -2,6 +2,7 @@ const { updates } = require("../../../../internal/adapters/vk/vk");
 const { getUpdateLastPostId, getLikeUser } = require("../../../../internal/domain/user/service/serviceBonus");
 const { handleError } = require("../../../../error/customError");
 const { Utils } = require("../../utils");
+const { vkShort } = require("../../../../internal/adapters/vk/vkUtils");
 
 function updateLike() {
     updates.on('like', async (msg) => {
@@ -19,7 +20,7 @@ function updateLike() {
 
             const utilsAmount = Utils.formateNumberAddition(data.amount);
 
-            msg.send(`🎉 +${utilsAmount}$ за лайк!`);
+            vkShort.sendMsg(userId, `🎉 +${utilsAmount}$ за лайк!`);
         
         } catch (error) {
             handleError(error, msg);

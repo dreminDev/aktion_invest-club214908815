@@ -139,7 +139,7 @@ async function getLikeUser(userId, postId) {
 };
 
 async function getUpdateLastPostId(postId) {
-  dbGlobal.setLikePost(postId);
+  await dbGlobal.setLikePost(postId);
 
   const data = newLastPostIdInfo({
     "postId": postId,
