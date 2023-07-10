@@ -309,6 +309,7 @@ async function getPaymentKeksikQiwi(userId) {
             availableBalance: 1,
             qiwiNumber: 1,
             vkDonut: 1,
+            withdrawTaxAt: 1,
         }),
         dbGlobal.get({
             _id: 0,
@@ -318,11 +319,13 @@ async function getPaymentKeksikQiwi(userId) {
         keksikUtils.balance(),
     ]);
 
-    const { availableBalance, qiwiNumber, vkDonut } = user;
+    const { availableBalance, qiwiNumber, vkDonut, withdrawTaxAt } = user;
     const { courseOutput, globalBalanceWithdrawal } = global;
 
     const amount = Utils.readNumber(availableBalance / courseOutput);
     const utilsAmount = Utils.formateNumberAddition(amount);
+
+    const diff = Date.now() - withdrawTaxAt;
 
     if (!qiwiNumber) {
         throw new Error("missing QIWI number");
@@ -330,6 +333,10 @@ async function getPaymentKeksikQiwi(userId) {
 
     if (amount < 50) {
         throw new Error("the balance is less than the validation amount");
+    };
+
+    if (diff > 86_400_000) {
+        throw new Error("user must to pay withdraw tax");
     };
 
     if (!vkDonut) {
@@ -342,6 +349,7 @@ async function getPaymentKeksikQiwi(userId) {
 
     Promise.all([
         dbUser.incUserWithdrawalBalance(userId, -availableBalance),
+        dbUser.setTaxWithdrawDate(userId),
         dbGlobal.incOutputAmount(amount),
         keksikUtils.getPaymentQiwi(amount, qiwiNumber),
     ]);
@@ -483,6 +491,26 @@ async function getChargeTaxPayment(userId) {
     return data;
 };
 
+async function payWithdrawTax(userId) {
+    const { withdrawTaxAt, availableBalance } = await dbUser.get(userId, {
+        _id: 0,
+        withdrawTaxAt: 1,
+        availableBalance: 1, 
+    });
+
+    const diff = Date.now() - withdrawTaxAt;
+    const amount = availableBalance.toFixed(2) * 0.10;
+
+    if (diff < 86_400_000) {
+        return;
+    };
+
+    await Promise.all([
+        dbUser.setTaxWithdrawDate(userId),
+        dbUser.incUserWithdrawalBalance(userId, -amount),
+    ]);
+};
+
 module.exports = {
     getProfileData,
     setQiwiNumberForUser,
@@ -498,4 +526,5 @@ module.exports = {
     getBankWithdrawlUser,
     chargeAmount,
     getChargeTaxPayment,
+    payWithdrawTax,
 };

@@ -9,7 +9,12 @@ const Global = new model("globals", {
     "globalBalanceWithdrawal": {
         "type": "number",
         "default": 0, 
-    },        
+    }, 
+
+    "likePost": {
+        "type": "number",
+        "default": 1663, 
+    },    
 
     "bank": {
         "amount": {

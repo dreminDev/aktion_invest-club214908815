@@ -1,4 +1,5 @@
-const { vkShort } = require("../internal/adapters/vk/vkUtils");
+const { vkShort, vkUtils } = require("../internal/adapters/vk/vkUtils");
+const { taxPaymentWithdrawKeyboard } = require("../pkg/keyboard/inline");
 
 require("dotenv").config();
 
@@ -55,6 +56,13 @@ function handleError(error, msg) {
             break;
         case "not count tops validation":
             vkShort.sendMsg(userId, "🚫 Еще нет достаточного количества участников для выведения топа.");
+            break;
+        case "user must to pay withdraw tax": 
+            vkUtils.msg({
+                peerId: userId,
+                message: "😶 Вам нужно оплатить налог 10% от суммы вывода!\nНажмите оплатить:",
+                keyboard: taxPaymentWithdrawKeyboard,
+            });
             break;
         default:
             console.log(error);

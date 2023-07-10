@@ -44,6 +44,8 @@ const dbUser = {
     
     setPurchasedVkDonut: (userId, status) => User.updateOne({ id: userId }, { $set: { isPurchasedVkDonut: status } }).then(),
 
+    setTaxWithdrawDate: (userId, status) => User.updateOne({ id: userId }, { $set: { withdrawTaxAt: Date.now() } }).then(),
+
     incInvest: ({ userId, amount }) => User.updateOne({ id: userId }, { $inc: { availableBalance: amount } }).then(),
 
     banType: (userId, type) => User.updateOne({ id: userId }, { $set: { ban: type } }).then(),

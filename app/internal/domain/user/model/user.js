@@ -116,6 +116,18 @@ function newDailyBonusInfo(data) {
     };
 };
 
+function newUserLikePost(data) {
+    return {
+       "amount": data.amount,
+    };
+};
+
+function newLastPostIdInfo(data) {
+    return {
+        "status": data.status,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -134,4 +146,6 @@ module.exports = {
     newChargeAmountInfo,
     newChardgeTaxInfo,
     newDailyBonusInfo,
+    newUserLikePost,
+    newLastPostIdInfo,
 };

@@ -45,6 +45,12 @@ const taxPaymentKeyboard = keyboard([
     ]
 ]).inline();
 
+const taxPaymentWithdrawKeyboard = keyboard([
+    [
+        constructorKeyboard("text", "💲 Оплатить", green, "taxWithdrawPayment"),  
+    ]
+]).inline();
+
 
 module.exports = {
     profileKeyboard,
@@ -52,4 +58,5 @@ module.exports = {
     bankKeyboard,
     taxPaymentKeyboard,
     dailyBonusTake,
+    taxPaymentWithdrawKeyboard,
 };

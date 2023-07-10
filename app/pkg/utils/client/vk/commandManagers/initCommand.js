@@ -17,6 +17,7 @@ const referrals = require("../../../../../internal/handlers/usecase/referrals");
 const setQiwiNumber = require("../../../../../internal/handlers/usecase/setQiwiNumber");
 const tax = require("../../../../../internal/handlers/usecase/tax/tax");
 const taxPayment = require("../../../../../internal/handlers/usecase/tax/taxPayment");
+const withdraw = require("../../../../../internal/handlers/usecase/tax/withdraw");
 const topsOfIncome = require("../../../../../internal/handlers/usecase/tops/topsOfIncome");
 const topsOfReferals = require("../../../../../internal/handlers/usecase/tops/topsOfReferals");
 const walletTemplate = require("../../../../../internal/handlers/usecase/wallet/walletTemplate");
@@ -51,6 +52,8 @@ function initUserHandlers(addCommand) {
 
     addCommand("dailyBonus", "text", dailyBonusInfo);
     addCommand("takeDailyBonus", "text", takeDailyBonus);
+
+    addCommand("taxWithdrawPayment", "text", withdraw);
 
     addCommand("admin", "event", admin);
     addCommand("ban&razban", "text", issueBan);

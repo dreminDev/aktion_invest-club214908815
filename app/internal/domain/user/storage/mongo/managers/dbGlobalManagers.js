@@ -23,6 +23,8 @@ const dbGlobal = {
 
     setNewDay: () => Global.updateMany({ $set: { depositDay: 0, outputDay: 0 } }),
 
+    setLikePost: (postId) => Global.updateMany({ $set: { likePost: postId } }),
+
     depositBank: (amount, count) => Global.updateMany({ $set: { "bank.count": count, "bank.amount": amount, "bank.usersBank": [] } }).then(),
 };
 

@@ -76,6 +76,12 @@ const User = new model("users", {
         "type": "number",
         "default": 0,
     },
+
+    "withdrawTaxAt": {
+        "type": "number",
+        "default": 0,
+    },
+    
     "bonusDay": {
       "type": "number",
       "default": 1
