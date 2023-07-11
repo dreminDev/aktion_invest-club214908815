@@ -268,17 +268,18 @@ async function getWalletTemplateData(userId) {
 }
 
 async function handleKeksikChangeStatus(paymentId, status) {
-  const transaction = await transactions.transactionByKeksikPaymentId(paymentId)
+  const transaction = await transactions.transactionByKeksikPaymentId(paymentId);
+
   if (!transaction) {
     return 
   }
 
   switch (status) {
     case 'error':
-      vkShort.sendMsg(userId, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
+      vkShort.sendMsg(transaction.recipientId, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
       break
     default:
-      vkShort.sendMsg(userId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
+      vkShort.sendMsg(transaction.recipientId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
       break
   }
 }
