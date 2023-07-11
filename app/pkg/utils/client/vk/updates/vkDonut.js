@@ -8,8 +8,16 @@ function updatesDonutCreate() {
     updates.on('donut_subscription_create', async (msg) => {
         const userId = msg.userId;
 
+        const { isPurchasedVkDonut } = await dbUser.get(userId, {
+            _id: 0,
+            isPurchasedVkDonut: 1,
+        });
+
+        if (!isPurchasedVkDonut) {
+            dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: 84_000 });
+        };
+
         Promise.all([
-            dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: 84_000 }),
             dbUser.vkDonutStatus(userId, true),
 
             vkShort.sendMsg(userId, "🎉 Успешное подключение подписки «VK Donut»\n\n• Выдано:\n+ Статус «Акционер»\n+ Доступ к выводу\n+ 10% к ежедневному бонусу\n+ Возможность забирать деньги с банка\n+ Бонус за каждый комментарий (15$)\n+ Акция «Tesla»\n+ Доступ к беседе с промокодами\n\n• Убрано:\n- Налоги"),
@@ -17,7 +25,7 @@ function updatesDonutCreate() {
     });
 };
 
-function updatesDobutProlonged() {
+function updatesDonutProlonged() {
     updates.on('donut_subscription_prolonged', async (msg) => {
         const userId = msg.userId;
 
@@ -27,10 +35,6 @@ function updatesDobutProlonged() {
         });
 
         vkShort.sendMsg(userId, "🎉 Успешное продление подписки, твои преимущества остаются с тобой)");
-
-        if (isPurchasedVkDonut) {
-            dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: 0 });
-        };
 
         if (!isPurchasedVkDonut) {
             Promise.all([
@@ -45,16 +49,16 @@ function updatesDonutExpired() {
     updates.on('donut_subscription_expired', async (msg) => {
         const userId = msg.userId;
 
-        vkShort.sendMsg(userId, "🚫 Отказ от оплаты подписки. Все преимущества подписки были изъяты.");
+        const { isPurchasedVkDonut } = await dbUser.get(userId, {
+            _id: 0,
+            isPurchasedVkDonut: 1,
+        });
 
-        if (isPurchasedVkDonut) {
-            dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: 0 });
-        };
+        vkShort.sendMsg(userId, "🚫 Отказ от оплаты подписки. Все преимущества подписки были изъяты.");
 
         if (!isPurchasedVkDonut) {
             Promise.all([
                 dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: -84_000 }),
-                dbUser.setPurchasedVkDonut(userId, true),
                 dbUser.vkDonutStatus(userId, false),
             ]);
         };
@@ -64,7 +68,7 @@ function updatesDonutExpired() {
 function vkDonutStart() {
     updatesDonutCreate();
     updatesDonutExpired();
-    updatesDobutProlonged();
+    updatesDonutProlonged();
 };
 
 module.exports = {

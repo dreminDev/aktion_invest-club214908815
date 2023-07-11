@@ -21,7 +21,7 @@ module.exports = async (msg) => {
                         {
                             action: {
                                 type: 'open_link',
-                                label: '💰 Купить',
+                                label: '💰 Пополнить',
                                 link: `https://vk.com/app6887721_-${GROUP_ID}#donate_50&op`,
                             },
                         },
