@@ -5,6 +5,12 @@ const { Utils } = require("../../../../pkg/utils/utils");
 
 module.exports = async (msg) => {
     try {
+        const admin = await dbUser.getAdmins();
+
+        if (!admin.includes(userId)) {
+            return;
+        };
+
         const { globalBalanceWithdrawal } = await dbGlobal.get({
             _id: 0, 
             globalBalanceWithdrawal: 1,

@@ -8,6 +8,12 @@ const { handleError } = require("../../../../error/customError");
 
 module.exports = async (msg) => {
     try {
+        const admin = await dbUser.getAdmins();
+
+        if (!admin.includes(userId)) {
+            return;
+        };
+
         const user = await msg.question(
             "📝 Отправь мне ссылку на пользователя."
         );
