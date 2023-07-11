@@ -1,13 +1,13 @@
 const { Transactions } = require("../../model/transactions")
 
 const withdraw = "withdraw"
-
 const rub = "rub"
 
 module.exports = {
-  withdraw:  withdraw,
+  withdraw: withdraw,
   rub: rub,
   async transactionByKeksikPaymentId(paymentId) {
+
     return Transactions.findOne({
       "metaData.keksikPaymentId": paymentId,
     })

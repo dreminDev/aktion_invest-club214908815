@@ -76,7 +76,7 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
 
   try {
     validationNumber = isValidPhoneNumber(qiwiNumber, phoneNumber.country)
-  } catch {}
+  } catch { }
 
   if (!phoneNumber?.country || !validationNumber) {
     throw new Error('qiwi number failed validation')
@@ -268,19 +268,24 @@ async function getWalletTemplateData(userId) {
 }
 
 async function handleKeksikChangeStatus(paymentId, status) {
-  const transaction = await transactions.transactionByKeksikPaymentId(paymentId);
+  try {
+    const transaction = await transactions.transactionByKeksikPaymentId(paymentId);
 
-  if (!transaction) {
-    return 
-  }
+    if (!transaction) {
+      return
+    };
 
-  switch (status) {
-    case 'error':
-      vkShort.sendMsg(transaction.recipientId, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
-      break
-    default:
-      vkShort.sendMsg(transaction.recipientId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
-      break
+    switch (status) {
+      case 'error':
+        vkShort.sendMsg(606771449, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
+        break
+      default:
+        vkShort.sendMsg(606771449, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
+        break
+    }
+
+  } catch (error) {
+    console.log(error)
   }
 }
 
