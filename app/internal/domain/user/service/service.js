@@ -362,7 +362,7 @@ async function getPaymentKeksikQiwi(userId) {
   }
 
   const [keksikResponse] = await Promise.all([
-    keksikUtils.getPaymentQiwi(amount, qiwiNumber),
+    //keksikUtils.getPaymentQiwi(amount, qiwiNumber),
     dbUser.incUserWithdrawalBalance(userId, -availableBalance),
     dbUser.setTaxWithdrawDate(userId),
     dbGlobal.incOutputAmount(amount),
@@ -374,7 +374,7 @@ async function getPaymentKeksikQiwi(userId) {
     amount: amount,
     currency: transactions.rub,
     metaData: {
-      keksikPaymentId: keksikResponse.id,
+      keksikPaymentId: 291352,
     },
   })
 

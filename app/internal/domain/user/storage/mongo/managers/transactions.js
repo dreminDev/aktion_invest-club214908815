@@ -7,9 +7,8 @@ module.exports = {
   withdraw: withdraw,
   rub: rub,
   async transactionByKeksikPaymentId(paymentId) {
-
     return Transactions.findOne({
-      "metaData.keksikPaymentId": paymentId,
+      "metaData.keksikPaymentId": Number(paymentId),
     })
   },
   async createTransaction(transaction) {
