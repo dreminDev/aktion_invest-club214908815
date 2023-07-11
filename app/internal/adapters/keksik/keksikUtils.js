@@ -22,11 +22,13 @@ const keksikUtils = {
     getPaymentQiwi: async (amount, qiwi) => {
         const response = await axios.post(`${baseApiUrl}/payments/create`, { 
             group, token,
-            v: apiVersion, system: 'qiwi', 
-            purse: `${qiwi}`, amount,
+            v: apiVersion, 
+            system: 'qiwi', 
+            purse: `${qiwi}`, 
+            amount,
         });
         
-        return response.data / 100;
+        return response.data;
     },
 };
 

@@ -1,4 +1,4 @@
-const { handleKeksikDeposit } = require("../../../internal/domain/user/service/service");
+const { handleKeksikDeposit, handleKeksikChangeStatus } = require("../../../internal/domain/user/service/service");
 
 require("dotenv").config();
 
@@ -13,6 +13,16 @@ module.exports = async (req, res) => {
                 JSON.stringify({ status: "ok", code: KEKSIK_VERIFICATION_CODE })
             );
         };
+
+        if (req.body.type === "payment_status") {
+          await handleKeksikChangeStatus(req.body.id, req.body.status)
+
+          res.send(
+            JSON.stringify({ status: "ok" })
+          );
+
+          return 
+        }
 
         const { user, amount } = req.body.donate;
         
@@ -34,8 +44,7 @@ module.exports = async (req, res) => {
         );
 
         handleKeksikDeposit(validatedData);
-
     } catch (err) {
-        res.send(JSON.stringify({ status: err }));
+        res.send(JSON.stringify({ status: "error" }));
     };
 };
