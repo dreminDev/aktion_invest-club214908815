@@ -7,7 +7,7 @@ const { mailingVeryfeKeyboard, mailingAttachemntKeyboard } = require("../../../.
 
 module.exports = async (msg) => {
     try {
-        const userId = msg.senderId;
+        const userId = msg.userId || msg.senderId;
 
         const admin = await dbUser.getAdmins();
 

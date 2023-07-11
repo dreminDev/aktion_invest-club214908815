@@ -376,7 +376,7 @@ async function getPaymentKeksikQiwi(userId) {
     amount: utilsAmount,
   });
 
-  return data
+  return data;
 }
 
 async function getVkDonutInfoUser(userId) {

@@ -5,6 +5,8 @@ const { Utils } = require("../../../../pkg/utils/utils");
 
 module.exports = async (msg) => {
     try {
+        const userId = msg.userId || msg.senderId;
+
         const admin = await dbUser.getAdmins();
 
         if (!admin.includes(userId)) {
