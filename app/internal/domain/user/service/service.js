@@ -339,8 +339,8 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error('missing QIWI number')
   }
 
-  if (amount < 2) {
-    throw new Error('the balance is less than the validation amount')
+  if (amount < 50) {
+    throw new Error('the balance is less than the validation amount');
   }
 
   if (diff > 86_400_000) {
@@ -374,7 +374,7 @@ async function getPaymentKeksikQiwi(userId) {
 
   const data = newPaymentKeksikQiwiInfo({
     amount: utilsAmount,
-  })
+  });
 
   return data
 }
