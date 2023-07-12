@@ -277,7 +277,18 @@ async function handleKeksikChangeStatus(paymentId, status) {
 
     switch (status) {
       case 'error':
-        vkShort.sendMsg(transaction.recipientId, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
+        vkShort.sendMsg(transaction.recipientId, `❌ Вывод отклонен. Скорее всего у вас не «Основной» статус QIWI.
+
+📋 Дополнительная помощь у администратора: https://vk.com/paradeevko`)
+
+        const { courseOutput } = await dbGlobal.get({
+          _id: 0,
+          globalBalanceWithdrawal: 1,
+          courseOutput: 1,
+        })
+
+        await dbUser.incUserWithdrawalBalance(transaction.recipientId, transaction.amount * courseOutput)
+        
         break
       default:
         vkShort.sendMsg(transaction.recipientId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
@@ -349,7 +360,7 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error('the balance is less than the validation amount');
   }
 
-  if (diff > 86_400_000) {
+  if (diff > 3_600_000 * 6) {
     throw new Error('user must to pay withdraw tax')
   }
 
