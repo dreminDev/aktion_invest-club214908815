@@ -277,9 +277,7 @@ async function handleKeksikChangeStatus(paymentId, status) {
 
     switch (status) {
       case 'error':
-        vkShort.sendMsg(transaction.recipientId, `❌ Вывод отклонен. Скорее всего у вас не «Основной» статус QIWI.
-
-📋 Дополнительная помощь у администратора: https://vk.com/paradeevko`)
+        vkShort.sendMsg(transaction.recipientId, `❌ Вывод отклонен. Скорее всего у вас не «Основной» статус QIWI.\n\n📋 Дополнительная помощь у администратора: https://vk.com/paradeevko`)
 
         const { courseOutput } = await dbGlobal.get({
           _id: 0,
@@ -533,7 +531,7 @@ async function payWithdrawTax(userId) {
   })
 
   const diff = Date.now() - withdrawTaxAt
-  const amount = availableBalance.toFixed(2) * 0.1
+  const amount = availableBalance.toFixed(2) * 0.2;
 
   if (diff < 86_400_000) {
     return
