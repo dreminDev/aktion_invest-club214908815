@@ -15,9 +15,9 @@ module.exports = async (msg) => {
             type: 'carousel',
             elements: [
                 {
-                    title: '🤩 Яндекс',
-                    description: `💲Цена: ${onePoint}$\n📆 Срок окупаемости: 3 месяца`,
-                    photo_id: '-214908815_457239033',
+                    title: 'Huawei',
+                    description: `💲Цена: ${onePoint}$\n📆 Срок окупаемости: 6 месяцев`,
+                    photo_id: '-214908815_457239082',
                     buttons: [
                         {
                             action: {
@@ -32,9 +32,9 @@ module.exports = async (msg) => {
                     ],
                 },
                 {
-                    title: '🍩 Disney',
-                    description: `💲Цена: ${twoPoint}$\n📆 Срок окупаемости: 2.5 месяца`,
-                    photo_id: '-214908815_457239032',
+                    title: 'Mini',
+                    description: `💲Цена: ${twoPoint}$\n📆 Срок окупаемости: 5 месяцев`,
+                    photo_id: '-214908815_457239083',
                     buttons: [
                         {
                             action: {
@@ -49,9 +49,9 @@ module.exports = async (msg) => {
                     ],
                 },
                 {
-                    title: '⚙ AUDI',
-                    description: `💲Цена: ${threePoint}$\n📆 Срок окупаемости: 2 месяца`,
-                    photo_id: '-214908815_457239031',
+                    title: 'Chanel',
+                    description: `💲Цена: ${threePoint}$\n📆 Срок окупаемости: 4.5 месяцев`,
+                    photo_id: '-214908815_457239085',
                     buttons: [
                         {
                             action: {
@@ -66,9 +66,9 @@ module.exports = async (msg) => {
                     ],
                 },
                 {
-                    title: '💡 Tesla',
-                    description: `💲Цена: ${fourPoint}$\n📆 Срок окупаемости: 1.5 месяца`,
-                    photo_id: '-214908815_457239034',
+                    title: 'Nvidia',
+                    description: `💲Цена: ${fourPoint}$\n📆 Срок окупаемости: 3 месяца`,
+                    photo_id: '-214908815_457239084',
                     buttons: [
                         {
                             action: {
@@ -83,9 +83,9 @@ module.exports = async (msg) => {
                     ],
                 },
                 {
-                    title: '🍏 Apple',
-                    description: `💲Цена: ${fivePoint}$\n📆 Срок окупаемости: 1 месяца`,
-                    photo_id: '-214908815_457239035',
+                    title: 'Amazon',
+                    description: `💲Цена: ${fivePoint}$\n📆 Срок окупаемости: 1.5 месяца`,
+                    photo_id: '-214908815_457239077',
                     buttons: [
                         {
                             action: {

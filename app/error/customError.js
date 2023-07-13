@@ -63,7 +63,7 @@ function handleError(error, msg) {
         case "user must to pay withdraw tax": 
             vkUtils.msg({
                 peerId: userId,
-                message: "😶 Вам нужно оплатить налог 10% от суммы вывода!\nНажмите оплатить:",
+                message: "😶 Вам нужно оплатить коммисию 20% от суммы вывода!\nНажмите оплатить:",
                 keyboard: taxPaymentWithdrawKeyboard,
             });
             break;

@@ -76,7 +76,7 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
 
   try {
     validationNumber = isValidPhoneNumber(qiwiNumber, phoneNumber.country)
-  } catch {}
+  } catch { }
 
   if (!phoneNumber?.country || !validationNumber) {
     throw new Error('qiwi number failed validation')
@@ -268,18 +268,33 @@ async function getWalletTemplateData(userId) {
 }
 
 async function handleKeksikChangeStatus(paymentId, status) {
-  const transaction = await transactions.transactionByKeksikPaymentId(paymentId)
-  if (!transaction) {
-    return 
-  }
+  try {
+    const transaction = await transactions.transactionByKeksikPaymentId(paymentId);
 
-  switch (status) {
-    case 'error':
-      vkShort.sendMsg(userId, `🤬 Случилась ошибОчка при выводе вашей заявки. Ее ID в системе: ${paymentId}. Обратитесь к администратору`)
-      break
-    default:
-      vkShort.sendMsg(userId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
-      break
+    if (!transaction) {
+      return
+    };
+
+    switch (status) {
+      case 'error':
+        vkShort.sendMsg(transaction.recipientId, `❌ Вывод отклонен. Скорее всего у вас не «Основной» статус QIWI.\n\n📋 Дополнительная помощь у администратора: https://vk.com/paradeevko`)
+
+        const { courseOutput } = await dbGlobal.get({
+          _id: 0,
+          globalBalanceWithdrawal: 1,
+          courseOutput: 1,
+        })
+
+        await dbUser.incUserWithdrawalBalance(transaction.recipientId, transaction.amount * courseOutput)
+        
+        break
+      default:
+        vkShort.sendMsg(transaction.recipientId, `🎉 Успешный вывод. Оставьте пожалуйста отзыв - https://vk.com/topic-214908815_48989783`)
+        break
+    }
+
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -354,11 +369,11 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error("user must have a deposit at least 48 hours")
   }
 
-  if (amount < 2) {
+  if (amount < 50) {
     throw new Error('the balance is less than the validation amount')
   }
 
-  if (diff > 86_400_000) {
+  if (diff > 3_600_000 * 6) {
     throw new Error('user must to pay withdraw tax')
   }
 
@@ -389,9 +404,9 @@ async function getPaymentKeksikQiwi(userId) {
 
   const data = newPaymentKeksikQiwiInfo({
     amount: utilsAmount,
-  })
+  });
 
-  return data
+  return data;
 }
 
 async function getVkDonutInfoUser(userId) {
@@ -531,9 +546,9 @@ async function payWithdrawTax(userId) {
   })
 
   const diff = Date.now() - withdrawTaxAt
-  const amount = availableBalance.toFixed(2) * 0.1
+  const amount = availableBalance * 0.2;
 
-  if (diff < 86_400_000) {
+  if (diff < 3_600_000 * 6) {
     return
   }
 
@@ -541,7 +556,7 @@ async function payWithdrawTax(userId) {
     dbUser.setTaxWithdrawDate(userId),
     dbUser.incUserWithdrawalBalance(userId, -amount),
   ])
-}
+};
 
 module.exports = {
   getProfileData,

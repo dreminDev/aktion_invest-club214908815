@@ -5,7 +5,7 @@ const { adminKeyboard } = require("../../../../pkg/keyboard/admin");
 
 
 module.exports = async (msg) => {
-    const userId = msg.userId ? msg.userId : msg.senderId;
+    const userId = msg.userId || msg.senderId;
 
     const admin = await dbUser.getAdmins();
 

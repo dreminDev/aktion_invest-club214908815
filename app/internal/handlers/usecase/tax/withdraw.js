@@ -7,7 +7,7 @@ module.exports = async (msg) => {
 
         const data = await payWithdrawTax(userId);
         
-        msg.send(`🎉 Успешно оплачена комиссия! 10% от баланса для вывода.`);
+        msg.send(`🎉 Успешно оплачена комиссия! 20% от баланса для вывода.`);
 
     } catch (error) {
         handleError(error, msg);

@@ -5,6 +5,8 @@ const { handleError } = require("../../../../error/customError");
 
 module.exports = async (msg) => {
     try {
+        const userId = msg.userId || msg.senderId;
+
         const admin = await dbUser.getAdmins();
 
         if (!admin.includes(userId)) {

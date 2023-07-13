@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
         };
 
         if (req.body.type === "payment_status") {
-          await handleKeksikChangeStatus(req.body.id, req.body.status)
+          await handleKeksikChangeStatus(req.body.payment.id, req.body.payment.status)
 
           res.send(
             JSON.stringify({ status: "ok" })

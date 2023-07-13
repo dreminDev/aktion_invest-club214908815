@@ -6,12 +6,12 @@ const deposit = "deposit"
 const rub = "rub"
 
 module.exports = {
-  withdraw:  withdraw,
+  withdraw: withdraw,
   deposit: deposit,
   rub: rub,
   async transactionByKeksikPaymentId(paymentId) {
     return Transactions.findOne({
-      "metaData.keksikPaymentId": paymentId,
+      "metaData.keksikPaymentId": Number(paymentId),
     })
   },
   async lastTransactionByRecipientId(recipientId) {
