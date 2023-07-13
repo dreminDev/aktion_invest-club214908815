@@ -9,6 +9,9 @@ function handleError(error, msg) {
     const userId = msg.senderId || msg.userId || msg.fromId || msg.deleterUserId || msg;
 
     switch (error.message) {
+        case "user must have a deposit at least 48 hours": 
+            vkShort.sendMsg(userId, "❌ Для вывода необзодимо пополниться хотя бы 1 раз за последние 48 часов")
+            break;
         case "qiwi number failed validation":
             vkShort.sendMsg(userId, "❗️ Номер введён неправильно, формат был предоставлен выше.");
             break;

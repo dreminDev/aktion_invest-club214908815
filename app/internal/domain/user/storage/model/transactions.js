@@ -22,6 +22,11 @@ const TransactionsSchema = new Schema({
   },
   metaData: {
     type: "object",
+  },
+  createdAt: {
+    type: "number",
+    default: Date.now(),
+    required: true, 
   }
 })
 

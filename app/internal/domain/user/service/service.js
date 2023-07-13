@@ -284,7 +284,7 @@ async function handleKeksikChangeStatus(paymentId, status) {
 }
 
 async function handleKeksikDeposit(responseData) {
-  const { userId, amount } = responseData
+  const { userId, amount, paymentId } = responseData
 
   const [global] = await Promise.all([
     dbGlobal.get({
@@ -299,6 +299,16 @@ async function handleKeksikDeposit(responseData) {
 
   Promise.all([dbUser.incUserBalance(userId, userAmount), dbGlobal.incDepositAmount(userAmount)])
 
+  await transactions.createTransaction({
+    type: transactions.deposit,
+    recipientId: userId,
+    amount: amount,
+    currency: transactions.rub,
+    metaData: {
+      keksikPaymentId: paymentId,
+    },
+  })
+
   const utilsUserAmount = Utils.formateNumberAddition(userAmount)
 
   vkShort.sendMsg(userId, `✅ Успешное пополнение. +${utilsUserAmount}$`)
@@ -311,7 +321,7 @@ async function handleKeksikDeposit(responseData) {
 }
 
 async function getPaymentKeksikQiwi(userId) {
-  const [user, global, keksikBalance] = await Promise.all([
+  const [user, global, keksikBalance, lastTransaction] = await Promise.all([
     dbUser.get(userId, {
       _id: 0,
       availableBalance: 1,
@@ -325,6 +335,7 @@ async function getPaymentKeksikQiwi(userId) {
       courseOutput: 1,
     }),
     keksikUtils.balance(),
+    transactions.lastTransactionByRecipientId(userId),
   ])
 
   const { availableBalance, qiwiNumber, vkDonut, withdrawTaxAt } = user
@@ -337,6 +348,10 @@ async function getPaymentKeksikQiwi(userId) {
 
   if (!qiwiNumber) {
     throw new Error('missing QIWI number')
+  }
+
+  if (Date.now() - lastTransaction.createdAt > 3_600_000 * 48) {
+    throw new Error("user must have a deposit at least 48 hours")
   }
 
   if (amount < 2) {

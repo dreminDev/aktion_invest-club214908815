@@ -24,11 +24,12 @@ module.exports = async (req, res) => {
           return 
         }
 
-        const { user, amount } = req.body.donate;
+        const { user, amount, id } = req.body.donate;
         
         const validatedData = {
             userId: user,
             amount: amount,
+            paymentId: id,
         };
 
         if (!validatedData.userId || !validatedData.amount) {
