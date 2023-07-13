@@ -531,9 +531,9 @@ async function payWithdrawTax(userId) {
   })
 
   const diff = Date.now() - withdrawTaxAt
-  const amount = availableBalance.toFixed(2) * 0.2;
+  const amount = availableBalance * 0.2;
 
-  if (diff < 86_400_000) {
+  if (diff < 3_600_000 * 6) {
     return
   }
 
@@ -541,7 +541,7 @@ async function payWithdrawTax(userId) {
     dbUser.setTaxWithdrawDate(userId),
     dbUser.incUserWithdrawalBalance(userId, -amount),
   ])
-}
+};
 
 module.exports = {
   getProfileData,
