@@ -365,7 +365,7 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error('missing QIWI number')
   }
   
-  if (Date.now() - lastTransaction?.createdAt > 3_600_000 * 48 || !lastTransaction) {
+  if (Date.now() - lastTransaction?.createdAt > 3_600_000 * 72 || !lastTransaction) {
     throw new Error("user must have a deposit at least 48 hours")
   }
 
