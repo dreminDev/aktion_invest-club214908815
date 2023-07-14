@@ -14,9 +14,10 @@ module.exports = {
       "metaData.keksikPaymentId": Number(paymentId),
     })
   },
-  async lastTransactionByRecipientId(recipientId) {
+  async lastTransactionByRecipientId(recipientId, type) {
     return Transactions.findOne({
       recipientId: recipientId,
+      type: type,
     }).sort({ createdAt: -1 })
   },
   async createTransaction(transaction) {
