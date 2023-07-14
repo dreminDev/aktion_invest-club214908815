@@ -350,7 +350,7 @@ async function getPaymentKeksikQiwi(userId) {
       courseOutput: 1,
     }),
     keksikUtils.balance(),
-    transactions.lastTransactionByRecipientId(userId),
+    transactions.lastTransactionByRecipientId(userId, transactions.deposit),
   ])
 
   const { availableBalance, qiwiNumber, vkDonut, withdrawTaxAt } = user
