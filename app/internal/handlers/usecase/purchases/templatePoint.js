@@ -84,7 +84,7 @@ module.exports = async (msg) => {
                 },
                 {
                     title: 'Amazon',
-                    description: `💲Цена: ${fivePoint}$\n📆 Срок окупаемости: 1.5 месяца`,
+                    description: `💲Цена: ${fivePoint}$\n📆 Срок окупаемости: 2 месяца`,
                     photo_id: '-214908815_457239077',
                     buttons: [
                         {
