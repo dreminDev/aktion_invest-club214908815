@@ -18,7 +18,7 @@ async function accrual() {
             const userId = element.id;
             const perDayInc = element.perDayInc;
 
-            const amount = perDayInc / 108;
+            const amount = perDayInc / 144;
     
             await dbUser.incInvest({ userId: userId, amount: amount });
         });
