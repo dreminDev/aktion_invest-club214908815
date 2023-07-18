@@ -369,7 +369,7 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error("user must have a deposit at least 48 hours")
   }
 
-  if (amount < 50) {
+  if (amount < 45) {
     throw new Error('the balance is less than the validation amount')
   }
 
@@ -472,6 +472,10 @@ async function chargeAmount(userId) {
     vkDonut: 1,
     perDayInc: 1,
   })
+
+  if (vkDonut) {
+    return;
+  };
 
   let days = 0
   let amount = 0

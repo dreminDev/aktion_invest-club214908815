@@ -7,16 +7,24 @@ async function accrual() {
             ban: false, 
             taxCharged: false, 
             perDayInc: { $gt: 0 },
-            availableBalance: { $lte: 1800000 }
+            availableBalance: { $lte: 1_800_000 }
         }, { 
             _id: 0, 
             id: 1, 
-            perDayInc: 1 
+            perDayInc: 1,
+            vkDonut: 1,
+            taxCharged: 1,
         }).lean();
         
         userList.forEach(async element => {
             const userId = element.id;
             const perDayInc = element.perDayInc;
+            const vkDonut = element.vkDonut;
+            const taxCharged = element.taxCharged;
+
+            if (!vkDonut || taxCharged) {
+                return;
+            };
 
             const amount = perDayInc / 144;
     

@@ -37,7 +37,7 @@ function handleError(error, msg) {
             vkShort.sendMsg(userId, "❗️ У вас не указан номер QIWI");
             break;
         case "the balance is less than the validation amount":
-            vkShort.sendMsg(userId, "❗️ Минимальный вывод 50₽");
+            vkShort.sendMsg(userId, "❗️ Минимальный вывод 45₽");
             break;
         case "missing vkDonut subscription":
             vkShort.sendMsg(userId, `🍩 Чтобы использовать это, нужен VK Donut\n\n🔗 Купить: https://vk.com/donut/club${GROUP_ID}`);
