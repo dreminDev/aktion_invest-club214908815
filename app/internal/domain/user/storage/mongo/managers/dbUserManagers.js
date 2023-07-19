@@ -18,6 +18,8 @@ const dbUser = {
 
     taxNow: (userId) => User.updateOne({ id: userId }, { $set: { lastChargedAt: new Date() } }).then(),
 
+    subStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { isSub: status } }),
+
     setTaxStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { taxCharged: status } }).then(),
 
     topReferrals: (limit) => User.find({ admin: false, referralCount: { $gt: 0 } }, { _id: 0, id: 1, referralCount: 1 }).sort({ referralCount: -1 }).limit(limit).lean(),

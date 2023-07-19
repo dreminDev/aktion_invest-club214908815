@@ -128,6 +128,13 @@ function newLastPostIdInfo(data) {
     };
 };
 
+function newSubGroupBonus(data) {
+    return {
+        "amount": data.amount,
+        "type": data.type,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -148,4 +155,5 @@ module.exports = {
     newDailyBonusInfo,
     newUserLikePost,
     newLastPostIdInfo,
+    newSubGroupBonus,
 };

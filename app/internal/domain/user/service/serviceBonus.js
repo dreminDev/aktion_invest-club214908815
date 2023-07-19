@@ -13,6 +13,7 @@ const {
   newDailyBonusInfo,
   newUserLikePost,
   newLastPostIdInfo,
+  newSubGroupBonus,
 } = require("../model/user");
 
 const donutChargePercent = process.env?.ADDITIONAL_DONUT_CHARGE_PERCENT || 10;
@@ -148,10 +149,48 @@ async function getUpdateLastPostId(postId) {
   return data;
 };
 
+async function getSubscribed(userId, subTypes) {
+  const [user] = await Promise.all([
+      dbUser.get(userId, { 
+          _id: 0, 
+          isSub: 1 
+      }),
+  ]);
+
+  const { isSub } = user;
+  const amount = 20_000;
+
+  let type = 0;
+
+  if (!isSub && subTypes.includes("group_leave") ) {
+      await dbUser.subStatus(userId, true);
+  } else if (isSub && subTypes.includes("group_leave") ) {
+      await Promise.all([
+          dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: -amount }),
+          dbUser.subStatus(userId, true),
+      ]);
+      type += 1;
+  } else if (subTypes.includes("group_join")) {
+      await Promise.all([
+          dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: amount }),
+          dbUser.subStatus(userId, true),
+      ]);
+      type += 2;
+  };
+
+  const data = newSubGroupBonus({
+      "amount": amount,
+      "type": type
+  });
+
+  return data;
+};
+
 
 module.exports = {
   getCommentUser,
   getBonusDaily,
   getLikeUser,
   getUpdateLastPostId,
+  getSubscribed,
 };

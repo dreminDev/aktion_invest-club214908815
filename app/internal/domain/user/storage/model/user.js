@@ -87,6 +87,11 @@ const User = new model("users", {
       "default": 1
     },
 
+    "isSub": {
+        "type": "boolean",
+        "default": "false",
+    },
+
     "ban": {
         "type": "boolean",
         "default": "false",
