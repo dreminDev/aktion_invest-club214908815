@@ -477,12 +477,14 @@ async function chargeAmount(userId) {
     return;
   };
 
-  let days = 0
+  let days = 0;
   let amount = 0
 
   if (lastChargedAt) {
-    days += (Date.now() - lastChargedAt) / 86_400_000
-  }
+    days += (Date.now() - lastChargedAt) / 86_400_000;
+  } else {
+    days += 1;
+  };
 
   if (days > 7) {
     amount += 35_000
