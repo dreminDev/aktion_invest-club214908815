@@ -487,7 +487,7 @@ async function chargeAmount(userId) {
   if (days > 7) {
     amount += 35_000
 
-    dbUser.setTaxStatus(userId, true)
+    await dbUser.setTaxStatus(userId, true)
   }
 
   amount += days * 5_000
