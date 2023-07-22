@@ -154,11 +154,11 @@ async function getSubscribed(userId, subTypes) {
       dbUser.get(userId, { 
           _id: 0, 
           isSub: 1,
-        
+          perDayInc: 1,
       }),
   ]);
 
-  const { isSub } = user;
+  const { isSub, perDayInc } = user;
   const amount = 20_000;
 
   let type = 0;
@@ -170,12 +170,18 @@ async function getSubscribed(userId, subTypes) {
           dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: -amount }),
           dbUser.subStatus(userId, true),
       ]);
+
       type += 1;
   } else if (subTypes.includes("group_join")) {
       await Promise.all([
           dbUser.incBuyPoint({ userId: userId, amount: 0, perDayInc: amount }),
           dbUser.subStatus(userId, true),
       ]);
+      
+      if (!perDayInc) {
+        await dbUser.taxNow(userId);
+      };
+
       type += 2;
   };
 

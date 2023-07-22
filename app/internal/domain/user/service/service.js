@@ -105,11 +105,11 @@ async function buyPoints(userId, payload) {
     throw new Error('insufficient balance')
   }
 
-  dbUser.incBuyPoint({ userId: userId, amount: amount, perDayInc: perDayIncAmount })
+  await dbUser.incBuyPoint({ userId: userId, amount: amount, perDayInc: perDayIncAmount })
 
   if (!perDayInc) {
-    dbUser.taxNow(userId)
-  }
+    await dbUser.taxNow(userId)
+  };
 
   const data = newBuyPointInfo({
     amount: amount,
@@ -493,7 +493,7 @@ async function chargeAmount(userId) {
   }
 
   amount += days * 5_000
-
+  
   const data = newChargeAmountInfo({
     days: days,
     amount: amount,
