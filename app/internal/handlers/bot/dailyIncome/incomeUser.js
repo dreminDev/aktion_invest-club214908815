@@ -5,7 +5,6 @@ async function accrual() {
     setInterval(async() => {
         const userList = await User.find({ 
             ban: false, 
-            taxCharged: false, 
             perDayInc: { $gt: 0 },
             availableBalance: { $lte: 1_800_000 }
         }, { 
@@ -13,16 +12,18 @@ async function accrual() {
             id: 1, 
             perDayInc: 1,
             vkDonut: 1,
-            taxCharged: 1,
+            lastChargedAt: 1,
         }).lean();
         
         userList.forEach(async element => {
             const userId = element.id;
             const perDayInc = element.perDayInc;
             const vkDonut = element.vkDonut;
-            const taxCharged = element.taxCharged;
+            const lastChargedAt = element.lastChargedAt;
 
-            if (!vkDonut || taxCharged) {
+            const days = (Date.now() - lastChargedAt) / 86_400_000;
+
+            if (days > 7 && !vkDonut) {
                 return;
             };
 

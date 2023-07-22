@@ -153,7 +153,8 @@ async function getSubscribed(userId, subTypes) {
   const [user] = await Promise.all([
       dbUser.get(userId, { 
           _id: 0, 
-          isSub: 1 
+          isSub: 1,
+        
       }),
   ]);
 
