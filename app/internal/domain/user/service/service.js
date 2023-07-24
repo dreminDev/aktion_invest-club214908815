@@ -492,7 +492,7 @@ async function chargeAmount(userId) {
     await dbUser.setTaxStatus(userId, true)
   }
 
-  amount += days * 5_000
+  amount += days * 5_000;
   
   const data = newChargeAmountInfo({
     days: days,
