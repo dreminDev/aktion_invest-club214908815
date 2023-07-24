@@ -10,7 +10,7 @@ module.exports = async (msg) => {
     try {
         const payload = msg?.eventPayload?.numberPoint;
 
-        if (payload < 1 || payload > 5) {
+        if (payload < 1 || payload > 6) {
             return;
         };
 

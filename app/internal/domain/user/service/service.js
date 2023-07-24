@@ -92,6 +92,7 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
 }
 
 async function buyPoints(userId, payload) {
+  console.log(payload);
   const { balance, perDayInc } = await dbUser.get(userId, {
     _id: 0,
     balance: 1,
