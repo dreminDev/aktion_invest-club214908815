@@ -16,7 +16,7 @@ const dbUser = {
 
     incBuyPoint: ({ userId, amount, perDayInc }) => User.updateOne({ id: userId }, { $inc: { balance: -amount, perDayInc: perDayInc } }).then(),
 
-    taxNow: (userId) => User.updateOne({ id: userId }, { $set: { lastChargedAt: new Date() } }).then(),
+    taxNow: (userId) => User.updateOne({ id: userId }, { $set: { lastChargedAt: Date.now() } }).then(),
 
     subStatus: (userId, status) => User.updateOne({ id: userId }, { $set: { isSub: status } }),
 

@@ -474,7 +474,7 @@ async function chargeAmount(userId) {
   })
 
   if (vkDonut) {
-    return;
+    throw new Error("you can not pay the tax");
   };
 
   let days = 0;
