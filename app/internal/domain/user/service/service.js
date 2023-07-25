@@ -366,11 +366,11 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error('missing QIWI number')
   }
   
-  if (Date.now() - lastTransaction?.createdAt > 3_600_000 * 72 || !lastTransaction) {
+  if (Date.now() - lastTransaction?.createdAt > 3_600_000 * 64 || !lastTransaction) {
     throw new Error("user must have a deposit at least 48 hours")
   }
 
-  if (amount < 45) {
+  if (amount < 70) {
     throw new Error('the balance is less than the validation amount')
   }
 
