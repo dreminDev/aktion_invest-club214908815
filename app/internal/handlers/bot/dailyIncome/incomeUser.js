@@ -6,7 +6,7 @@ async function accrual() {
         const userList = await User.find({ 
             ban: false, 
             perDayInc: { $gt: 0 },
-            availableBalance: { $lte: 2_700_000 }
+            availableBalance: { $lte: 4_500_000 }
         }, { 
             _id: 0, 
             id: 1, 
