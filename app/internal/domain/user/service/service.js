@@ -370,7 +370,7 @@ async function getPaymentKeksikQiwi(userId) {
     throw new Error("user must have a deposit at least 48 hours")
   }
 
-  if (amount < 150) {
+  if (amount < 100) {
     throw new Error('the balance is less than the validation amount')
   }
 
