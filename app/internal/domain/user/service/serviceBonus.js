@@ -44,18 +44,16 @@ async function getCommentUser(userId, subTypes) {
     vkDonut: 1,
   });
 
-  const amount = 15;
-
   if (!vkDonut) {
     throw new Error("missing vkDonut subscription comment");
   };
 
   if (subTypes.includes("wall_reply_new")) {
-    dbUser.incUserBalance(userId, amount);
+    dbUser.incUserBalance(userId, amountBonuses.comment);
   };
 
   if (subTypes.includes("wall_reply_delete")) {
-    dbUser.incUserBalance(userId, -amount);
+    dbUser.incUserBalance(userId, -amountBonuses.comment);
   };
 
   const data = newCommentBonusInfo({
