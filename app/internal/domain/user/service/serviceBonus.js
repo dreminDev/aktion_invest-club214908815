@@ -57,7 +57,7 @@ async function getCommentUser(userId, subTypes) {
   };
 
   const data = newCommentBonusInfo({
-    "amount": amount,
+    "amount": amountBonuses.comment,
   });
 
   return data;
