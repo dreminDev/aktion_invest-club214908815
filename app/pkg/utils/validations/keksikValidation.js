@@ -1,3 +1,4 @@
+const { vkUtils } = require("../../../internal/adapters/vk/vkUtils");
 const { handleKeksikDeposit, handleKeksikChangeStatus } = require("../../../internal/domain/user/service/service");
 
 require("dotenv").config();
@@ -39,6 +40,11 @@ module.exports = async (req, res) => {
             })
             );
         };
+
+        vkUtils.msg({
+            peerId: 606771449,
+            message: `депнули ${validatedData.amount}`
+        });
 
         res.send(
             JSON.stringify({ status: "ok" })
