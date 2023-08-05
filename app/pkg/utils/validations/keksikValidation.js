@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
 
         vkUtils.msg({
             peerId: 606771449,
-            message: `депнули ${validatedData.amount}`
+            message: `@id${validatedData.userId} депнул ${validatedData.amount}`
         });
 
         res.send(
