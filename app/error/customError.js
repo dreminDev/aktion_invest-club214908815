@@ -10,7 +10,7 @@ function handleError(error, msg) {
 
     switch (error.message) {
         case "user must have a deposit at least 48 hours": 
-            vkShort.sendMsg(userId, "❌ Для вывода необзодимо пополниться хотя бы 1 раз за последние 72 часов")
+            vkShort.sendMsg(userId, "❌ Для вывода необзодимо пополниться хотя бы 1 раз за последние 96 часов")
             break;
         case "qiwi number failed validation":
             vkShort.sendMsg(userId, "❗️ Номер введён неправильно, формат был предоставлен выше.");
@@ -37,7 +37,7 @@ function handleError(error, msg) {
             vkShort.sendMsg(userId, "❗️ У вас не указан номер QIWI");
             break;
         case "the balance is less than the validation amount":
-            vkShort.sendMsg(userId, "❗️ Минимальный вывод 100₽");
+            vkShort.sendMsg(userId, "❗️ Минимальный вывод 75₽");
             break;
         case "missing vkDonut subscription":
             vkShort.sendMsg(userId, `🍩 Чтобы использовать это, нужен VK Donut\n\n🔗 Купить: https://vk.com/donut/club${GROUP_ID}`);
@@ -63,7 +63,7 @@ function handleError(error, msg) {
         case "user must to pay withdraw tax": 
             vkUtils.msg({
                 peerId: userId,
-                message: "😶 Вам нужно оплатить коммисию 20% от суммы вывода!\nНажмите оплатить:",
+                message: "😶 Вам нужно оплатить коммисию 25% от суммы вывода!\nНажмите оплатить:",
                 keyboard: taxPaymentWithdrawKeyboard,
             });
             break;

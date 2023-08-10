@@ -30,8 +30,6 @@ const {
 const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 const transactions = require('../storage/mongo/managers/transactions');
 
-// что за попа, почему в одном файле всё блин
-
 async function getProfileData(userId) {
     const [user, global] = await Promise.all([
         dbUser.get(userId, {
@@ -377,11 +375,11 @@ async function getPaymentKeksikQiwi(userId) {
         throw new Error('missing QIWI number');
     }
 
-    if (Date.now() - lastTransaction?.createdAt > 3_600_000 * 64 || !lastTransaction) {
+    if (Date.now() - Number(lastTransaction?.createdAt) > 3_600_000 * 96 || !lastTransaction) {
         throw new Error('user must have a deposit at least 48 hours');
-    }
+    };
 
-    if (amount < 100) {
+    if (amount < 75) {
         throw new Error('the balance is less than the validation amount');
     }
 
@@ -564,7 +562,7 @@ async function payWithdrawTax(userId) {
     });
 
     const diff = Date.now() - withdrawTaxAt;
-    const amount = availableBalance * 0.2;
+    const amount = availableBalance * 0.25;
 
     if (diff < 3_600_000 * 6) {
         return;
@@ -574,7 +572,7 @@ async function payWithdrawTax(userId) {
         dbUser.setTaxWithdrawDate(userId),
         dbUser.incUserWithdrawalBalance(userId, -amount),
     ]);
-}
+};
 
 module.exports = {
     getProfileData,

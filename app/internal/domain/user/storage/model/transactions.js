@@ -25,7 +25,6 @@ const TransactionsSchema = new Schema({
   },
   createdAt: {
     type: "number",
-    default: Date.now(),
     required: true, 
   }
 })
