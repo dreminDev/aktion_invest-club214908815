@@ -53,7 +53,7 @@ async function getProfileData(userId) {
     const { courseOutput } = global;
 
     const status = vkDonut ? 'Акционер' : 'Обычный';
-    const passStatus = isPass ? "есть" : "нету";
+    const passStatus = isPass ? "да" : "нет";
 
     const userBalance = Utils.formateNumberAddition(balance);
     const userRefCount = Utils.formateNumberAddition(referralCount);
@@ -97,7 +97,6 @@ async function setQiwiNumberForUser(userId, qiwiNumber) {
 }
 
 async function buyPoints(userId, payload) {
-    console.log(payload);
     const { balance, perDayInc } = await dbUser.get(userId, {
         _id: 0,
         balance: 1,
