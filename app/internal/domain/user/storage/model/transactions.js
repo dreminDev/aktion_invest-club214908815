@@ -1,4 +1,4 @@
-const { model,  Schema } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const TransactionsSchema = new Schema({
   type: {
@@ -25,6 +25,7 @@ const TransactionsSchema = new Schema({
   },
   createdAt: {
     type: "number",
+    default: Date.now(),
     required: true, 
   }
 })

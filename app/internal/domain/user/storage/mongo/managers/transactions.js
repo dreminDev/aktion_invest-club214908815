@@ -12,7 +12,6 @@ module.exports = {
     async transactionByKeksikPaymentId(paymentId) {
         return Transactions.findOne({
             'metaData.keksikPaymentId': Number(paymentId),
-            "createdAt": Date.now(),
         });
     },
     async lastTransactionByRecipientId(recipientId, type) {

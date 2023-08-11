@@ -10,6 +10,8 @@ const bank = require("../../../../../internal/handlers/usecase/bank/bank");
 const bankWithdrawal = require("../../../../../internal/handlers/usecase/bank/bankWithdrawal");
 const { dailyBonusInfo, takeDailyBonus } = require("../../../../../internal/handlers/usecase/bonus/dayilyBonus");
 const statistics = require("../../../../../internal/handlers/usecase/global/statistics");
+const pass = require("../../../../../internal/handlers/usecase/pass/pass");
+const passBuy = require("../../../../../internal/handlers/usecase/pass/passBuy");
 const profile = require("../../../../../internal/handlers/usecase/profile");
 const buyPoint = require("../../../../../internal/handlers/usecase/purchases/buyPoint");
 const templatePoint = require("../../../../../internal/handlers/usecase/purchases/templatePoint");
@@ -54,6 +56,9 @@ function initUserHandlers(addCommand) {
     addCommand("takeDailyBonus", "text", takeDailyBonus);
 
     addCommand("taxWithdrawPayment", "text", withdraw);
+
+    addCommand("pass", "text", pass);
+    addCommand("pass.buy", "text", passBuy);
 
     addCommand("admin", "event", admin);
     addCommand("ban&razban", "text", issueBan);

@@ -6,6 +6,7 @@ function newProfileInfo(data) {
         "perDayInc": data.perDayInc,
         "qiwiNumber": data.qiwiNumber,
         "availableBalance": data.availableBalance,
+        "passStatus": data.passStatus,
     };
 };
 
@@ -135,6 +136,12 @@ function newSubGroupBonus(data) {
     };
 };
 
+function newPassStatusInfo(data) {
+    return {
+        "pass": data.pass,
+    };
+};
+
 module.exports = {
     newProfileInfo,
     newQiwiNumberInfo,
@@ -156,4 +163,5 @@ module.exports = {
     newUserLikePost,
     newLastPostIdInfo,
     newSubGroupBonus,
+    newPassStatusInfo,
 };

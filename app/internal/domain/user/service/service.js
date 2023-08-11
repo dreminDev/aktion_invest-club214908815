@@ -26,6 +26,7 @@ const {
     newBankWithdrawlInfo,
     newChargeAmountInfo,
     newChardgeTaxInfo,
+    newPassStatusInfo,
 } = require('../model/user');
 const { keksikUtils } = require('../../../adapters/keksik/keksikUtils');
 const transactions = require('../storage/mongo/managers/transactions');
@@ -39,6 +40,7 @@ async function getProfileData(userId) {
             perDayInc: 1,
             qiwiNumber: 1,
             availableBalance: 1,
+            isPass: 1,
         }),
 
         dbGlobal.get({
@@ -47,10 +49,11 @@ async function getProfileData(userId) {
         }),
     ]);
 
-    const { vkDonut, balance, referralCount, perDayInc, qiwiNumber, availableBalance } = user;
+    const { vkDonut, balance, referralCount, perDayInc, qiwiNumber, availableBalance, isPass, } = user;
     const { courseOutput } = global;
 
     const status = vkDonut ? 'Акционер' : 'Обычный';
+    const passStatus = isPass ? "есть" : "нету";
 
     const userBalance = Utils.formateNumberAddition(balance);
     const userRefCount = Utils.formateNumberAddition(referralCount);
@@ -65,6 +68,7 @@ async function getProfileData(userId) {
         perDayInc: userPerDayInc,
         qiwiNumber: userQiwiNumber,
         availableBalance: userAvailableBalance,
+        passStatus: passStatus,
     });
 
     return data;
@@ -353,6 +357,7 @@ async function getPaymentKeksikQiwi(userId) {
             qiwiNumber: 1,
             vkDonut: 1,
             withdrawTaxAt: 1,
+            isPass: 1,
         }),
         dbGlobal.get({
             _id: 0,
@@ -363,7 +368,7 @@ async function getPaymentKeksikQiwi(userId) {
         transactions.lastTransactionByRecipientId(userId, transactions.deposit),
     ]);
 
-    const { availableBalance, qiwiNumber, vkDonut, withdrawTaxAt } = user;
+    const { availableBalance, qiwiNumber, vkDonut, withdrawTaxAt, isPass } = user;
     const { courseOutput, globalBalanceWithdrawal } = global;
 
     const amount = Utils.readNumber(availableBalance / courseOutput);
@@ -375,7 +380,7 @@ async function getPaymentKeksikQiwi(userId) {
         throw new Error('missing QIWI number');
     }
 
-    if (Date.now() - Number(lastTransaction?.createdAt) > 3_600_000 * 96 || !lastTransaction) {
+    if (!isPass && Date.now() - Number(lastTransaction?.createdAt) > 3_600_000 * 96 || !lastTransaction) {
         throw new Error('user must have a deposit at least 48 hours');
     };
 
@@ -574,6 +579,33 @@ async function payWithdrawTax(userId) {
     ]);
 };
 
+async function passBuy(userId) {
+    const { balance, isPass } = await dbUser.get(userId, {
+        _id: 0,
+        balance: 1,
+        isPass: 1,
+    });
+
+    if (isPass) {
+        throw new Error("you already have a pass");
+    };
+
+    if (balance < 17_100_000) {
+        throw new Error("insufficient balance");
+    };
+
+    await Promise.all([
+        dbUser.setPassStatus(userId, true), 
+        dbUser.incUserBalance(userId, -17_100_000)
+    ])
+
+    const data = newPassStatusInfo({
+        "pass": true
+    });
+
+    return data;
+};
+
 module.exports = {
     getProfileData,
     setQiwiNumberForUser,
@@ -591,4 +623,5 @@ module.exports = {
     getChargeTaxPayment,
     payWithdrawTax,
     handleKeksikChangeStatus,
+    passBuy,
 };

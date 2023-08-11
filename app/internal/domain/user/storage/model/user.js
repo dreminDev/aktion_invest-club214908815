@@ -87,6 +87,11 @@ const User = new model("users", {
       "default": 1
     },
 
+    "isPass": {
+        "type": "boolean",
+        "default": "false",
+    },
+
     "isSub": {
         "type": "boolean",
         "default": "false",

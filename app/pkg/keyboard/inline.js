@@ -5,6 +5,9 @@ require("dotenv").config();
 const profileKeyboard = keyboard([
     [
         constructorKeyboard("text", "🥝 Изменить QIWI", gray, "changeQiwiPhoneNumber"),
+    ],
+    [
+        constructorKeyboard("text", "🔱 PASS", blue, "pass"),
     ]
 ]).inline();
 
@@ -51,6 +54,11 @@ const taxPaymentWithdrawKeyboard = keyboard([
     ]
 ]).inline();
 
+const passKeyboard = keyboard([
+    [
+        constructorKeyboard("event", "🟩 Купить", green, "pass.buy"),
+    ]
+]).inline();
 
 module.exports = {
     profileKeyboard,
@@ -59,4 +67,5 @@ module.exports = {
     taxPaymentKeyboard,
     dailyBonusTake,
     taxPaymentWithdrawKeyboard,
+    passKeyboard,
 };

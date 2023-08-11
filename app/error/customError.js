@@ -60,6 +60,9 @@ function handleError(error, msg) {
         case "not count tops validation":
             vkShort.sendMsg(userId, "🚫 Еще нет достаточного количества участников для выведения топа.");
             break;
+        case "you already have a pass": 
+            vkShort.sendAnswer(msg, "😳 У вас уже есть пасс.");
+            break;
         case "user must to pay withdraw tax": 
             vkUtils.msg({
                 peerId: userId,
