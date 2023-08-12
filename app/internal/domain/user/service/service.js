@@ -379,7 +379,7 @@ async function getPaymentKeksikQiwi(userId) {
         throw new Error('missing QIWI number');
     }
 
-    if (!isPass && Date.now() - Number(lastTransaction?.createdAt) > 3_600_000 * 96 || !lastTransaction) {
+    if (Date.now() - Number(lastTransaction?.createdAt) > 3_600_000 * 96 || !lastTransaction) {
         throw new Error('user must have a deposit at least 48 hours');
     };
 
@@ -387,7 +387,7 @@ async function getPaymentKeksikQiwi(userId) {
         throw new Error('the balance is less than the validation amount');
     }
 
-    if (diff > 3_600_000 * 6) {
+    if (!isPass && diff > 3_600_000 * 6) {
         throw new Error('user must to pay withdraw tax');
     }
 
