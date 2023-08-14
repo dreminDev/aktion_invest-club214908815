@@ -125,25 +125,24 @@ async function buyPoints(userId, payload) {
 }
 
 async function getReferralData(userId) {
-    const [user, global] = await Promise.all([
+    const [user, userVkDonutInfo] = await Promise.all([
         dbUser.get(userId, {
             referralCount: 1,
         }),
-        dbGlobal.get({
-            refAmount: 1,
-        }),
+        getVkDonutInfoUser(userId),
     ]);
 
     const { referralCount } = user;
-    const { refAmount } = global;
+    const { vkDonut } = userVkDonutInfo;
+    
+    const refAmount = vkDonut ? 0.25 : 0.10;
 
     const refLink = await vkUtils.getRefShortUrl(userId);
 
     const utilsUserRefCount = Utils.formateNumberAddition(referralCount);
-    const utilsGlobalRefAmount = Utils.formateNumberAddition(refAmount);
 
     const data = newReferralInfo({
-        refAmount: utilsGlobalRefAmount,
+        refAmount: refAmount,
         referralCount: utilsUserRefCount,
         refLink: refLink,
     });
